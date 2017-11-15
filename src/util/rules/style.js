@@ -32,12 +32,14 @@ module.exports = (config, type) => {
     }
   };
 
-  if (config.env === 'development') {
-    return ['style-loader', postcss, 'resolve-url-loader', types[type]];
+  const use = [types.css, postcss, 'resolve-url-loader'];
+
+  if (type !== 'css') {
+    use.push(types[type]);
   }
 
   return ExtractTextPlugin.extract({
     fallback: 'style-loader',
-    use: [postcss, 'resolve-url-loader', types[type]]
+    use,
   })
 }

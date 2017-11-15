@@ -68,7 +68,8 @@ function runDev() {
   const compiler = webpack(webpackConfig);
   let cDate = +new Date();
 
-  compiler.run(runCallback);
+  // 这段不能加。。。
+  // compiler.run(runCallback);
 
   compiler.plugin('invalid', function () {
     clearConsole();

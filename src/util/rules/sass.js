@@ -6,7 +6,7 @@ module.exports = (config) => {
 
   return {
     test: /\.scss$/,
-    exclude: /(node_modules)/,
+    // exclude: /(node_modules)/,
     use: style(config, 'sass'),
   }
 }

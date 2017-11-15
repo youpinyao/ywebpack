@@ -68,8 +68,6 @@ function runDev() {
   const compiler = webpack(webpackConfig);
   let cDate = +new Date();
 
-  // compiler.outputFileSystem = fs;
-
   compiler.run(runCallback);
 
   compiler.plugin('invalid', function () {

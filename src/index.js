@@ -1,5 +1,8 @@
-const type = process.argv[2];
-const configPath = process.argv[3];
+#!/usr/bin/env node
+
+const args = process.argv.slice(2);
+const type = args[0];
+const configPath = args[1];
 
 const fs = require('fs');
 const webpack = require('webpack');

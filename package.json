@@ -8,6 +8,9 @@
     "build": "node ./src/index.js build ./test/ywebpack.config.js",
     "dll": "node ./src/index.js dll ./test/ywebpack.config.js"
   },
+  "bin": {
+    "ywebpack": "src/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/youpinyao/ywebpack.git"

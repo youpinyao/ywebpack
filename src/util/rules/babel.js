@@ -9,7 +9,6 @@ module.exports = (config) => {
         presets: [
           'env',
           'react',
-          'es2015',
           'stage-0'
         ],
         plugins: [

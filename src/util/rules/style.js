@@ -9,8 +9,14 @@ module.exports = (config, type) => {
         minimize: config.env !== 'development'
       }
     },
-    less: 'less-loader',
-    sass: 'sass-loader',
+    less: {
+      loader: 'less-loader',
+      options: config.lessOptions || undefined,
+    },
+    sass: {
+      loader: 'sass-loader',
+      options: config.sassOptions || undefined,
+    },
   };
 
   const postcss = {

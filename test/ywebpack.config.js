@@ -9,6 +9,7 @@ module.exports = {
     filename: 'index.html',
     entry: 'test/index.js',
   }],
+  cssOptions: undefined,
   lessOptions: undefined,
   sassOptions: undefined,
   extraBabelPlugins: [],

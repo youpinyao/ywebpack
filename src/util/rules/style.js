@@ -5,10 +5,10 @@ module.exports = (config, type) => {
   const types = {
     css: {
       loader: 'css-loader',
-      options: {
+      options: Object.assign({
         minimize: config.env !== 'development',
         modules: true,
-      }
+      }, config.cssOptions || {})
     },
     less: {
       loader: 'less-loader',

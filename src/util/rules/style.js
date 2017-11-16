@@ -6,7 +6,8 @@ module.exports = (config, type) => {
     css: {
       loader: 'css-loader',
       options: {
-        minimize: config.env !== 'development'
+        minimize: config.env !== 'development',
+        modules: true,
       }
     },
     less: {

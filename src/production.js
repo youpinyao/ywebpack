@@ -6,7 +6,7 @@ const config = require('./config');
 module.exports = function() {
   config.env = 'production';
 
-  return webpackMerge(baseConfig(config), {
+  return webpackMerge(baseConfig(config), config.webpackMerge || {}, {
     plugins: [
       new webpack.LoaderOptionsPlugin({
         minimize: false,

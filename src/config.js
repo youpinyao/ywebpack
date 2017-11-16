@@ -3,7 +3,7 @@ module.exports = {
   host: 'localhost',
   publicPath: '/',
   path: 'dist',
-  vendor: '',
+  vendors: undefined, // string or array
   // entrys: [{
   //   template: 'test/index.html',
   //   filename: 'views/index.html',
@@ -11,5 +11,6 @@ module.exports = {
   // }],
   lessOptions: undefined,
   sassOptions: undefined,
-  extraBabelPlugins: []
+  extraBabelPlugins: [],
+  webpackMerge: {},
 }

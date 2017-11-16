@@ -27,6 +27,10 @@ let webpackConfig = configs[type];
 
 switch (type) {
   case 'dll':
+    if (!config.vendors && !config.vendor) {
+      console.log(chalk.red('please config vendor or vendors'));
+      return;
+    }
     del.sync([path.resolve(process.cwd(), '.dll')], {
       force: true
     });
@@ -50,14 +54,19 @@ switch (type) {
       del.sync([path.resolve(process.cwd(), '.dll')], {
         force: true
       });
-      const dllCompiler = webpack(configs.dll());
 
-      dllCompiler.run((err, stats) => {
-        if (runCallback(err, stats)) {
-          console.log(chalk.green('\r\n dll complete \r\n'));
-          runDev();
-        }
-      });
+      if (!config.vendors && !config.vendor) {
+        runDev();
+      } else {
+        const dllCompiler = webpack(configs.dll());
+
+        dllCompiler.run((err, stats) => {
+          if (runCallback(err, stats)) {
+            console.log(chalk.green('\r\n dll complete \r\n'));
+            runDev();
+          }
+        });
+      }
     }
     break;
   default:

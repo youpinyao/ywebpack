@@ -20,14 +20,37 @@ const plugins = [
      * dll bundle 输出到那个全局变量上
      * 和 output.library 一样即可。
      */
-    name: '[name]_library'
-  })
+    name: '[name]_library',
+  }),
 ];
 
 module.exports = function () {
+
+  let vendors = config.vendors;
+
+  if (config.vendor) {
+    vendors = config.vendor;
+  }
+
+  if (typeof vendors === 'string') {
+    vendors = [vendors];
+  }
+
+  vendors = vendors.map((vendor) => {
+    let newVendor = '';
+
+    try {
+      newVendor = require.resolve(vendor);
+    } catch (e) {
+      newVendor = path.resolve(process.cwd(), vendor);
+    }
+
+    return newVendor;
+  });
+
   return {
     entry: {
-      vendor: [path.resolve(process.cwd(), config.vendor)]
+      vendor: vendors,
     },
     output: {
       path: path.resolve(process.cwd(), '.dll'),
@@ -37,7 +60,7 @@ module.exports = function () {
        * 将会定义为 window.${output.library}
        * 在这次的例子中，将会定义为`window.vendor_library`
        */
-      library: '[name]_library'
+      library: '[name]_library',
     },
     module: modules({}),
     plugins,

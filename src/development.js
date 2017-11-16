@@ -18,6 +18,22 @@ module.exports = function () {
   const dllJsPath = '.dll/vendor.dll.js';
   const assets = [];
 
+  const plugins = [
+    new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackIncludeAssetsPlugin({
+      assets,
+      append: false,
+      hash: true,
+    }),
+
+
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('development')
+      }
+    }),
+  ];
+
   if (fs.existsSync(dllJsPath)) {
     assets.push(dllJsPath);
   }
@@ -25,7 +41,14 @@ module.exports = function () {
     assets.push(dllCssPath);
   }
 
-  return webpackMerge(baseConfig, {
+  if (assets.length) {
+    plugins.push(new webpack.DllReferencePlugin({
+      context: path.resolve(process.cwd()),
+      manifest: require(path.resolve(process.cwd(), '.dll/vendor-manifest.json'))
+    }));
+  }
+
+  return webpackMerge(baseConfig, config.webpackMerge || {}, {
     devtool: 'eval',
     devServer: {
       disableHostCheck: true,
@@ -49,24 +72,6 @@ module.exports = function () {
       compress: true, // Enable gzip compression for everything served:
       watchContentBase: false,
     },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      new HtmlWebpackIncludeAssetsPlugin({
-        assets,
-        append: false,
-        hash: true,
-      }),
-
-      new webpack.DllReferencePlugin({
-        context: path.resolve(process.cwd()),
-        manifest: require(path.resolve(process.cwd(), '.dll/vendor-manifest.json'))
-      }),
-
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify('development')
-        }
-      }),
-    ]
+    plugins,
   });
 };

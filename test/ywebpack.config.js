@@ -3,7 +3,7 @@ module.exports = {
   host: 'localhost',
   publicPath: '/',
   path: 'dist',
-  vendor: 'test/vendor.js',
+  vendors: ['jquery'],
   entrys: [{
     template: 'test/index.html',
     filename: 'index.html',
@@ -12,4 +12,5 @@ module.exports = {
   lessOptions: undefined,
   sassOptions: undefined,
   extraBabelPlugins: [],
+  webpackMerge: {},
 };

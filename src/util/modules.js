@@ -11,8 +11,11 @@ module.exports = function (config) {
     rules: [
       html(config),
       css(config),
+      css(config, false),
       sass(config),
+      sass(config, false),
       less(config),
+      less(config, false),
       babel(config),
       eslint(config),
       assets(config),

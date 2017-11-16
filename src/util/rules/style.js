@@ -1,13 +1,13 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-module.exports = (config, type) => {
+module.exports = (config, type, modules) => {
 
   const types = {
     css: {
       loader: 'css-loader',
       options: Object.assign({
         minimize: config.env !== 'development',
-        modules: true,
+        modules: modules !== false,
       }, config.cssOptions || {})
     },
     less: {

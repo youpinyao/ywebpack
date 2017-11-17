@@ -7,8 +7,9 @@ module.exports = (config, type, modules) => {
       loader: 'css-loader',
       options: Object.assign({
         minimize: config.env !== 'development',
+        localIdentName: '[local]-[hash:base64:10]',
         modules: modules !== false,
-        camelCase: modules !== false,
+        camelCase: true,
       }, config.cssOptions || {})
     },
     less: {

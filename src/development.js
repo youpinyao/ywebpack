@@ -48,8 +48,8 @@ module.exports = function () {
     }));
   }
 
-  return webpackMerge(baseConfig, config.webpackMerge || {}, {
-    devtool: 'eval',
+  return webpackMerge(baseConfig, {
+    devtool: 'cheap-eval-source-map',
     devServer: {
       disableHostCheck: true,
       port: config.port,
@@ -73,5 +73,5 @@ module.exports = function () {
       watchContentBase: false,
     },
     plugins,
-  });
+  }, config.webpackMerge || {});
 };

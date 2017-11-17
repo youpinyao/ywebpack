@@ -8,6 +8,7 @@ module.exports = (config, type, modules) => {
       options: Object.assign({
         minimize: config.env !== 'development',
         modules: modules !== false,
+        camelCase: modules !== false,
       }, config.cssOptions || {})
     },
     less: {

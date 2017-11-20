@@ -18,11 +18,19 @@ module.exports = function () {
   const dllJsPath = '.dll/vendor.dll.js';
   const assets = [];
 
+  if (fs.existsSync(dllJsPath)) {
+    assets.push(dllJsPath);
+  }
+  if (fs.existsSync(dllCssPath)) {
+    assets.push(dllCssPath);
+  }
+
   const plugins = [
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackIncludeAssetsPlugin({
       assets,
       append: false,
+      publicPath: '/',
       hash: true,
     }),
 
@@ -33,13 +41,6 @@ module.exports = function () {
       }
     }),
   ];
-
-  if (fs.existsSync(dllJsPath)) {
-    assets.push(dllJsPath);
-  }
-  if (fs.existsSync(dllCssPath)) {
-    assets.push(dllCssPath);
-  }
 
   if (assets.length) {
     plugins.push(new webpack.DllReferencePlugin({

@@ -6,8 +6,8 @@ module.exports = (config, modules) => {
 
   return {
     test: /\.scss$/,
-    exclude: modules === false ? undefined : /(node_modules)/,
-    include: modules === false ? /(node_modules)/ : undefined,
+    exclude: modules === false ? undefined : [/(node_modules)/].concat(config.cssModulesExclude || []),
+    include: modules === false ? [/(node_modules)/].concat(config.cssModulesExclude || []) : undefined,
     use: style(config, 'sass', modules),
   }
 }

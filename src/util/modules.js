@@ -5,6 +5,7 @@ const less = require('./rules/less');
 const eslint = require('./rules/eslint');
 const babel = require('./rules/babel');
 const assets = require('./rules/assets');
+const expose = require('./rules/expose');
 
 module.exports = function (config) {
   return {
@@ -19,6 +20,7 @@ module.exports = function (config) {
       babel(config),
       eslint(config),
       assets(config),
+      expose(config),
     ]
   };
 };

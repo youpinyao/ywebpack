@@ -1,7 +1,9 @@
-module.exports = (config) => {
+module.exports = (config, isDevServer) => {
+
   const babelConfig = {
     test: /\.(js|jsx)$/,
-    exclude: /(node_modules)/,
+    exclude: isDevServer ? undefined : /(node_modules)/,
+    include: isDevServer ? /(\/webpack)/ : undefined,
     use: [{
       loader: 'babel-loader',
       options: {

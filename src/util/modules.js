@@ -7,7 +7,7 @@ const babel = require('./rules/babel');
 const assets = require('./rules/assets');
 
 module.exports = function (config) {
-  return {
+  const modules = {
     rules: [
       html(config),
       css(config),
@@ -21,4 +21,10 @@ module.exports = function (config) {
       assets(config),
     ]
   };
+
+  if (config.env === 'development') {
+    modules.rules.push(babel(config, true));
+  }
+
+  return modules;
 };

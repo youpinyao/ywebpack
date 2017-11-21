@@ -1,6 +1,6 @@
 {
   "name": "ywebpack",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "webpack",
   "main": "src/index.js",
   "scripts": {
@@ -42,7 +42,7 @@
     "css-loader": "^0.28.7",
     "delete": "^1.1.0",
     "eslint-loader": "^1.9.0",
-    "extract-text-webpack-plugin": "^3.0.2",
+    "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "^1.1.5",
     "html-loader": "^0.5.1",
     "html-webpack-include-assets-plugin": "^1.0.2",
@@ -58,7 +58,7 @@
     "style-loader": "^0.19.0",
     "underscore": "^1.8.3",
     "url-loader": "^0.6.2",
-    "webpack": "^3.8.1",
+    "webpack": "^2.7.0",
     "webpack-chunk-hash": "^0.5.0",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-dev-server": "^2.9.4",

@@ -24,11 +24,16 @@
     "react/prop-types": [0],
     "require-yield": [1],
     "no-unused-vars": [0],
-    "no-console": [0]
+    "no-console": [0],
+    "no-undef": [0]
   },
   "parserOptions": {
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true
     }
+  },
+  "globals": {
+    "lodash": true,
+    "window": true
   }
 }

@@ -50,7 +50,7 @@ module.exports = function () {
   }
 
   return webpackMerge(baseConfig, {
-    devtool: 'cheap-eval-source-map',
+    devtool: 'cheap-source-map',
     devServer: {
       disableHostCheck: true,
       port: config.port,

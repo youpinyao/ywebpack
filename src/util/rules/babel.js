@@ -19,7 +19,6 @@ module.exports = (config, isDevServer) => {
           'syntax-async-functions',
           'transform-async-to-generator',
           'syntax-jsx',
-          'lodash',
           'transform-runtime',
         ]
       }

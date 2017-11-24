@@ -14,6 +14,5 @@ module.exports = {
   sassOptions: undefined,
   extraBabelPresets: [],
   extraBabelPlugins: [],
-  lodashOptions: undefined,
   webpackMerge: {},
 }

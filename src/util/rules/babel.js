@@ -19,12 +19,15 @@ module.exports = (config, isDevServer) => {
           'syntax-async-functions',
           'transform-async-to-generator',
           'syntax-jsx',
+          'lodash',
           'transform-runtime',
         ]
       }
     }]
   }
-
+  if (config.extraBabelPresets) {
+    babelConfig.use[0].options.presets = babelConfig.use[0].options.presets.concat(config.extraBabelPresets);
+  }
   if (config.extraBabelPlugins) {
     babelConfig.use[0].options.plugins = babelConfig.use[0].options.plugins.concat(config.extraBabelPlugins);
   }

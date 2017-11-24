@@ -5,5 +5,4 @@ import css from './index.css';
 console.log('less', JSON.stringify(less), less);
 console.log('scss', JSON.stringify(scss), scss);
 console.log('css', JSON.stringify(css), css);
-console.log('promise', Promise);
-console.log('lodash', lodash);
+console.log('Promise', Promise);

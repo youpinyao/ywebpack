@@ -32,7 +32,6 @@
     }
   },
   "globals": {
-    "lodash": true,
     "window": true
   }
 }

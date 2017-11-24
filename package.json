@@ -1,6 +1,6 @@
 {
   "name": "ywebpack",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "webpack",
   "main": "src/index.js",
   "scripts": {
@@ -65,7 +65,8 @@
     "webpack-dev-middleware": "^1.12.0",
     "webpack-dev-server": "^2.9.4",
     "webpack-hot-middleware": "^2.20.0",
-    "webpack-merge": "^4.1.1"
+    "webpack-merge": "^4.1.1",
+    "lodash-webpack-plugin": "^0.11.4"
   },
   "devDependencies": {
     "babel-eslint": "8.0.2",
@@ -74,7 +75,6 @@
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-jsx-a11y": "6.0.2",
     "eslint-plugin-react": "7.4.0",
-    "jquery": "3.2.1",
-    "lodash-webpack-plugin": "^0.11.4"
+    "jquery": "3.2.1"
   }
 }

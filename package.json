@@ -1,6 +1,6 @@
 {
   "name": "ywebpack",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "webpack",
   "main": "src/index.js",
   "scripts": {
@@ -27,7 +27,6 @@
   "dependencies": {
     "autoprefixer": "^7.1.6",
     "babel-core": "^6.26.0",
-    "babel-eslint": "^8.0.2",
     "babel-loader": "^7.1.2",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-syntax-async-functions": "^6.13.0",
@@ -42,7 +41,6 @@
     "chunk-manifest-webpack-plugin": "^1.1.2",
     "css-loader": "^0.28.7",
     "delete": "^1.1.0",
-    "eslint": "^4.11.0",
     "eslint-loader": "^1.9.0",
     "expose-loader": "^0.7.4",
     "extract-text-webpack-plugin": "^3.0.2",
@@ -70,6 +68,8 @@
     "webpack-merge": "^4.1.1"
   },
   "devDependencies": {
+    "eslint": "^4.11.0",
+    "babel-eslint": "^8.0.2",
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-jsx-a11y": "6.0.2",
     "eslint-plugin-react": "7.4.0",

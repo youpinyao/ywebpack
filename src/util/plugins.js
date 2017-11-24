@@ -1,4 +1,3 @@
-
 const webpack = require('webpack');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -18,11 +17,10 @@ module.exports = (config) => {
     new WebpackChunkHash(),
     new ProgressBarPlugin(),
     new webpack.NamedModulesPlugin(),
-    new LodashModuleReplacementPlugin({
+    new LodashModuleReplacementPlugin(Object.assign({
       'collections': true,
       'paths': true,
-      ...config.lodashOptions,
-    }),
+    }, config.lodashOptions)),
     new ExtractTextPlugin({
       filename: 'assets/[name].[contenthash].css',
       disable: config.env === 'development',

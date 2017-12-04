@@ -1,6 +1,6 @@
 {
   "name": "ywebpack",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "description": "webpack",
   "main": "src/index.js",
   "scripts": {
@@ -39,6 +39,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "chalk": "^2.3.0",
     "chunk-manifest-webpack-plugin": "^1.1.2",
+    "commander": "^2.12.2",
     "css-loader": "^0.28.7",
     "delete": "^1.1.0",
     "eslint-loader": "^1.9.0",

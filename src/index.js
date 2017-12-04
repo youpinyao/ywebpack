@@ -1,75 +1,90 @@
 #!/usr/bin/env node
 
-const args = process.argv.slice(2);
-const type = args[0];
-const configPath = args[1];
-
 const fs = require('fs');
+const commander = require('commander');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const chalk = require('chalk');
 const del = require('delete');
 const path = require('path');
-let config = require('./config');
-
-if (configPath && fs.existsSync(path.resolve(process.cwd(), configPath))) {
-  config = Object.assign(config, require(path.resolve(process.cwd(), configPath)));
-}
-
 const clearConsole = require('react-dev-utils/clearConsole');
 
+let config = require('./config');
 const configs = {
   build: require('./production'),
   start: require('./development'),
   dll: require('./dll'),
 };
-let webpackConfig = configs[type];
 
-switch (type) {
-  case 'dll':
-    if (!config.vendors && !config.vendor) {
-      console.log(chalk.red('please config vendor or vendors'));
-      return;
-    }
-    del.sync([path.resolve(process.cwd(), '.dll')], {
-      force: true
-    });
-    webpack(webpackConfig()).run(runCallback);
-    console.log(chalk.green('\r\ndll complete \r\n'));
+commander
+  .version(require('../package.json').version)
+  .option('--start, start [configPath]', 'start a dev server', function (path) {
+    run('start', path);
+  })
+  .option('--dll, dll [configPath]', 'build dll', function (path) {
+    run('dll', path);
+  })
+  .option('--build, build [configPath]', 'build project', function (path) {
+    run('build', path);
+  }).parse(process.argv);
 
-    break;
-  case 'build':
-    del.sync([path.resolve(process.cwd(), config.path)], {
-      force: true
-    });
-    webpack(webpackConfig()).run((err, stats) => {
-      if (runCallback(err, stats)) {
-        console.log(chalk.green('\r\nbuild complete \r\n'));
+function run(type, configPath) {
+
+  if (configPath && fs.existsSync(path.resolve(process.cwd(), configPath))) {
+    config = Object.assign(config, require(path.resolve(process.cwd(), configPath)));
+  }
+
+  let webpackConfig = configs[type];
+
+  switch (type) {
+    case 'dll':
+      if (!config.vendors && !config.vendor) {
+        console.log(chalk.red('please config vendor or vendors'));
+        return;
       }
-    });
-
-    break;
-  case 'start':
-    {
       del.sync([path.resolve(process.cwd(), '.dll')], {
         force: true
       });
+      webpack(webpackConfig()).run((err, stats) => {
+        if (runCallback(err, stats)) {
+          console.log(chalk.green('\r\ndll complete \r\n'));
+        }
+      });
 
-      if (!config.vendors && !config.vendor) {
-        runDev();
-      } else {
-        const dllCompiler = webpack(configs.dll());
+      break;
+    case 'build':
+      del.sync([path.resolve(process.cwd(), config.path)], {
+        force: true
+      });
+      webpack(webpackConfig()).run((err, stats) => {
+        if (runCallback(err, stats)) {
+          console.log(chalk.green('\r\nbuild complete \r\n'));
+        }
+      });
 
-        dllCompiler.run((err, stats) => {
-          if (runCallback(err, stats)) {
-            console.log(chalk.green('\r\n dll complete \r\n'));
-            runDev();
-          }
+      break;
+    case 'start':
+      {
+        del.sync([path.resolve(process.cwd(), '.dll')], {
+          force: true
         });
+
+        if (!config.vendors && !config.vendor) {
+          runDev();
+        } else {
+          const dllCompiler = webpack(configs.dll());
+
+          dllCompiler.run((err, stats) => {
+            if (runCallback(err, stats)) {
+              console.log(chalk.green('\r\n dll complete \r\n'));
+              runDev();
+            }
+          });
+        }
       }
-    }
-    break;
-  default:
+      break;
+    default:
+  }
 }
 
 function runDev() {

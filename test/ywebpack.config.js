@@ -15,4 +15,7 @@ module.exports = {
   extraBabelPresets: [],
   extraBabelPlugins: [],
   webpackMerge: {},
+  afterBuild() {
+    console.log('afterBuild');
+  },
 };

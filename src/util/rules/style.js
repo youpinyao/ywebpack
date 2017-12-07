@@ -41,7 +41,11 @@ module.exports = (config, type, modules) => {
     }
   };
 
-  const use = [types.css, postcss, 'resolve-url-loader'];
+  const use = [types.css, postcss];
+
+  if (modules !== false) {
+    use.push('resolve-url-loader');
+  }
 
   if (type !== 'css') {
     use.push(types[type]);

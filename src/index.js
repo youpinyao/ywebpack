@@ -59,10 +59,6 @@ function run(type, configPath) {
       webpack(webpackConfig()).run((err, stats) => {
         if (runCallback(err, stats)) {
           console.log(chalk.green('\r\nbuild complete \r\n'));
-          // 构建后回调
-          if (config.afterBuild && typeof config.afterBuild === 'function') {
-            config.afterBuild(config);
-          }
         }
       });
 
@@ -81,7 +77,7 @@ function run(type, configPath) {
           dllCompiler.run((err, stats) => {
             if (runCallback(err, stats)) {
               console.log(chalk.green('\r\n dll complete \r\n'));
-              runDev();
+              runDev(webpackConfig);
             }
           });
         }
@@ -91,9 +87,9 @@ function run(type, configPath) {
   }
 }
 
-function runDev() {
-  webpackConfig = webpackConfig();
-  const compiler = webpack(webpackConfig);
+function runDev(webpackConfig) {
+  const config = webpackConfig();
+  const compiler = webpack(config);
   let cDate = +new Date();
 
   // 这段不能加。。。
@@ -111,12 +107,13 @@ function runDev() {
     clearConsole();
     const ncDate = +new Date();
 
+    console.log(chalk.green(`http://${config.devServer.host}:${config.devServer.port}${config.output.publicPath}`));
     console.log(chalk.green(`Compiled ${ncDate - cDate}ms`));
   });
 
-  const devServer = new WebpackDevServer(compiler, webpackConfig.devServer);
+  const devServer = new WebpackDevServer(compiler, config.devServer);
 
-  devServer.listen(webpackConfig.devServer.port, webpackConfig.devServer.host, function (serr) {
+  devServer.listen(config.devServer.port, config.devServer.host, function (serr) {
     if (serr) {
       console.log(chalk.red(serr));
       return;

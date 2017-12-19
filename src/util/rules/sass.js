@@ -1,13 +1,27 @@
-
 const style = require('./style');
 
 module.exports = (config, modules) => {
-  const isDev = config.env === 'development';
+  const use = style(config, 'sass', modules);
+
+  if (modules === false) {
+    return {
+      test: /\.sass$/,
+      include: /(node_modules)/,
+      use,
+    }
+  }
+
+  if (modules === undefined) {
+    return {
+      test: /\.sass$/,
+      exclude: /(node_modules)/,
+      use,
+    }
+  }
 
   return {
-    test: /\.scss$/,
-    exclude: modules === false ? undefined : /(node_modules)/,
-    include: modules === false ? /(node_modules)/ : undefined,
-    use: style(config, 'sass', modules),
+    test: /\.sass$/,
+    include: modules,
+    use,
   }
 }

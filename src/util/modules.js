@@ -22,6 +22,13 @@ module.exports = function (config) {
     ]
   };
 
+  // 如果某些的特定的依赖需要css modules 正则表达式
+  if(config.cssModulesInclude) {
+    modules.rules.push(css(config, config.cssModulesInclude));
+    modules.rules.push(sass(config, config.cssModulesInclude));
+    modules.rules.push(less(config, config.cssModulesInclude));
+  }
+
   if (config.env === 'development') {
     modules.rules.push(babel(config, true));
   }

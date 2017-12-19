@@ -34,6 +34,19 @@ function run(type, configPath) {
     baseConfig = Object.assign(baseConfig, require(path.resolve(process.cwd(), configPath)));
   }
 
+  // 设置开发环境
+  if (type === 'start') {
+    baseConfig.env = 'development';
+    if (baseConfig.development) {
+      baseConfig = Object.assign(baseConfig, baseConfig.development);
+    }
+  } else {
+    baseConfig.env = 'production';
+    if (baseConfig.production) {
+      baseConfig = Object.assign(baseConfig, baseConfig.production);
+    }
+  }
+
   let webpackConfig = configs[type];
 
   switch (type) {

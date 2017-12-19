@@ -3,8 +3,6 @@ const webpackMerge = require('webpack-merge');
 const baseConfig = require('./util/base');
 
 module.exports = function(config) {
-  config.env = 'production';
-
   return webpackMerge(baseConfig(config), config.webpackMerge || {}, {
     plugins: [
       new webpack.LoaderOptionsPlugin({
@@ -17,7 +15,7 @@ module.exports = function(config) {
         name: ['vendor'],
         minChunks(module) {
           // this assumes your vendor imports exist in the node_modules directory
-          return module.context && module.context.indexOf('node_modules') !== -1;
+          return module.context && module.context.indexOf('node_modules') !== -1 && module.context.indexOf('node_modules/antd') === -1;
         }
       }),
 

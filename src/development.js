@@ -9,8 +9,6 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const base = require('./util/base');
 
 module.exports = function (config) {
-  config.env = 'development';
-
   const baseConfig = base(config);
 
   const dllCssPath = '.dll/vendor.dll.css';

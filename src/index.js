@@ -59,6 +59,9 @@ function run(type, configPath) {
       webpack(webpackConfig()).run((err, stats) => {
         if (runCallback(err, stats)) {
           console.log(chalk.green('\r\nbuild complete \r\n'));
+          if (config.afterBuild) {
+            config.afterBuild(config);
+          }
         }
       });
 

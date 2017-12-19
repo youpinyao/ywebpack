@@ -17,7 +17,7 @@ module.exports = (config) => {
     new ProgressBarPlugin(),
     new webpack.NamedModulesPlugin(),
     new ExtractTextPlugin({
-      filename: 'assets/[name].[contenthash].css',
+      filename: '[name].[contenthash].css',
       disable: config.env === 'development',
     }),
   ].concat(html(config));

@@ -5,7 +5,7 @@ module.exports = () => {
     use: [{
       loader: 'url-loader',
       options: {
-        name: 'assets/[path][name].[hash].[ext]',
+        name: '[name].[hash].[ext]',
         limit: 10000
       }
     }]

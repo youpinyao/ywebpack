@@ -11,7 +11,7 @@ module.exports = function (config) {
     cache: true,
     entry: entry(config),
     output: {
-      filename: `assets/[name].[hash].js`,
+      filename: `[name].[hash].js`,
       publicPath: config.publicPath,
       path: path.resolve(process.cwd(), config.path),
       sourceMapFilename: `[name].[hash].map`

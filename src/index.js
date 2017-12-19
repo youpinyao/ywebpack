@@ -9,7 +9,7 @@ const del = require('delete');
 const path = require('path');
 const clearConsole = require('react-dev-utils/clearConsole');
 
-let config = require('./config');
+let baseConfig = require('./config');
 const configs = {
   build: require('./production'),
   start: require('./development'),
@@ -31,21 +31,21 @@ commander
 function run(type, configPath) {
 
   if (configPath && fs.existsSync(path.resolve(process.cwd(), configPath))) {
-    config = Object.assign(config, require(path.resolve(process.cwd(), configPath)));
+    baseConfig = Object.assign(baseConfig, require(path.resolve(process.cwd(), configPath)));
   }
 
   let webpackConfig = configs[type];
 
   switch (type) {
     case 'dll':
-      if (!config.vendors && !config.vendor) {
+      if (!baseConfig.vendors && !baseConfig.vendor) {
         console.log(chalk.red('please config vendor or vendors'));
         return;
       }
       del.sync([path.resolve(process.cwd(), '.dll')], {
         force: true
       });
-      webpack(webpackConfig()).run((err, stats) => {
+      webpack(webpackConfig(baseConfig)).run((err, stats) => {
         if (runCallback(err, stats)) {
           console.log(chalk.green('\r\ndll complete \r\n'));
         }
@@ -53,14 +53,14 @@ function run(type, configPath) {
 
       break;
     case 'build':
-      del.sync([path.resolve(process.cwd(), config.path)], {
+      del.sync([path.resolve(process.cwd(), baseConfig.path)], {
         force: true
       });
-      webpack(webpackConfig()).run((err, stats) => {
+      webpack(webpackConfig(baseConfig)).run((err, stats) => {
         if (runCallback(err, stats)) {
           console.log(chalk.green('\r\nbuild complete \r\n'));
-          if (config.afterBuild) {
-            config.afterBuild(config);
+          if (baseConfig.afterBuild) {
+            baseConfig.afterBuild(baseConfig);
           }
         }
       });
@@ -72,10 +72,10 @@ function run(type, configPath) {
           force: true
         });
 
-        if (!config.vendors && !config.vendor) {
+        if (!baseConfig.vendors && !baseConfig.vendor) {
           runDev();
         } else {
-          const dllCompiler = webpack(configs.dll());
+          const dllCompiler = webpack(configs.dll(baseConfig));
 
           dllCompiler.run((err, stats) => {
             if (runCallback(err, stats)) {
@@ -91,7 +91,7 @@ function run(type, configPath) {
 }
 
 function runDev(webpackConfig) {
-  const config = webpackConfig();
+  const config = webpackConfig(baseConfig);
   const compiler = webpack(config);
   let cDate = +new Date();
 

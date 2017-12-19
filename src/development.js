@@ -7,9 +7,8 @@ const fs = require('fs');
 const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const base = require('./util/base');
-const config = require('./config');
 
-module.exports = function () {
+module.exports = function (config) {
   config.env = 'development';
 
   const baseConfig = base(config);

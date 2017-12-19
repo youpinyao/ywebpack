@@ -1,9 +1,8 @@
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const baseConfig = require('./util/base');
-const config = require('./config');
 
-module.exports = function() {
+module.exports = function(config) {
   config.env = 'production';
 
   return webpackMerge(baseConfig(config), config.webpackMerge || {}, {

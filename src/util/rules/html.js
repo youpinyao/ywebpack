@@ -1,7 +1,8 @@
-module.exports = () => {
+module.exports = (config, include) => {
   return {
     test: /\.html$/,
-    exclude: /(node_modules)/,
+    exclude: include ? undefined : /(node_modules)/,
+    include,
     use: [{
       loader: 'html-loader',
       options: {

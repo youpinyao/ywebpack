@@ -1,10 +1,9 @@
-module.exports = (config, isDevServer) => {
+module.exports = (config, include) => {
 
   const babelConfig = {
     test: /\.(js|jsx)$/,
-    exclude: isDevServer ? undefined : /(node_modules)/,
-    // 如果是测试环境，webpack调试相关的js也需要babel
-    include: isDevServer ? /(\/webpack)/ : undefined,
+    exclude: include ? undefined : /(node_modules)/,
+    include,
     use: [{
       loader: 'babel-loader',
       options: {

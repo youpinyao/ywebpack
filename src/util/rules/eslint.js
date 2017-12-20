@@ -1,8 +1,9 @@
-module.exports = () => {
+module.exports = (config, include) => {
   return {
     test: /\.js?$/,
     enforce: 'pre',
     loader: 'eslint-loader',
-    exclude: /(node_modules)/
+    exclude: include ? undefined : /(node_modules)/,
+    include,
   }
 };

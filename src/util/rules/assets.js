@@ -1,7 +1,8 @@
-module.exports = () => {
+module.exports = (config, include) => {
   return {
     test: /\.(jpg|png|gif|woff|woff2|eot|ttf|svg|ico|mp3|mp4)$/,
-    exclude: /(node_modules)/,
+    exclude: include ? undefined : /(node_modules)/,
+    include,
     use: [{
       loader: 'url-loader',
       options: {

@@ -22,15 +22,20 @@ module.exports = function (config) {
     ]
   };
 
-  // 如果某些的特定的依赖需要css modules 正则表达式
-  if(config.cssModulesInclude) {
-    modules.rules.push(css(config, config.cssModulesInclude));
-    modules.rules.push(sass(config, config.cssModulesInclude));
-    modules.rules.push(less(config, config.cssModulesInclude));
+  // 如果某些的特定的依赖需要同项目一样构建
+  if (config.buildInclude) {
+    modules.rules.push(html(config, config.buildInclude));
+    modules.rules.push(css(config, config.buildInclude));
+    modules.rules.push(sass(config, config.buildInclude));
+    modules.rules.push(less(config, config.buildInclude));
+    modules.rules.push(babel(config, config.buildInclude));
+    modules.rules.push(eslint(config, config.buildInclude));
+    modules.rules.push(assets(config, config.buildInclude));
   }
 
   if (config.env === 'development') {
-    modules.rules.push(babel(config, true));
+    // 如果是调试，对调试依赖也进行babel
+    modules.rules.push(babel(config, /(\/webpack)/));
   }
 
   return modules;

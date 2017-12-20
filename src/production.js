@@ -15,7 +15,15 @@ module.exports = function(config) {
         name: ['vendor'],
         minChunks(module) {
           // this assumes your vendor imports exist in the node_modules directory
-          return module.context && module.context.indexOf('node_modules') !== -1 && module.context.indexOf('node_modules/antd') === -1;
+          if (module.context) {
+            if (config.buildInclude && config.buildInclude.test(module.context)) {
+              return false;
+            }
+            if (/node_modules\/antd/g.test(module.context)) {
+              return false;
+            }
+          }
+          return module.context && module.context.indexOf('node_modules') !== -1;
         }
       }),
 

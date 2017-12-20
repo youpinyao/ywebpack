@@ -25,9 +25,9 @@ module.exports = function (config) {
   // 如果某些的特定的依赖需要同项目一样构建
   if (config.buildInclude) {
     modules.rules.push(html(config, config.buildInclude));
-    modules.rules.push(css(config, config.buildInclude));
-    modules.rules.push(sass(config, config.buildInclude));
-    modules.rules.push(less(config, config.buildInclude));
+    modules.rules.push(css(config, undefined, config.buildInclude));
+    modules.rules.push(sass(config, undefined, config.buildInclude));
+    modules.rules.push(less(config, undefined, config.buildInclude));
     modules.rules.push(babel(config, config.buildInclude));
     modules.rules.push(eslint(config, config.buildInclude));
     modules.rules.push(assets(config, config.buildInclude));

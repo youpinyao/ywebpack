@@ -1,27 +1,20 @@
 const style = require('./style');
 
-module.exports = (config, modules) => {
+module.exports = (config, modules, include) => {
   const use = style(config, 'sass', modules);
 
   if (modules === false) {
     return {
       test: /\.sass$/,
-      include: /(node_modules)/,
-      use,
-    }
-  }
-
-  if (modules === undefined) {
-    return {
-      test: /\.sass$/,
-      exclude: /(node_modules)/,
+      include: /(node_modules\/antd)/,
       use,
     }
   }
 
   return {
     test: /\.sass$/,
-    include: modules,
+    exclude: include ? undefined : /(node_modules)/,
+    include,
     use,
   }
 }

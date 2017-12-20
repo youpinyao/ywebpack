@@ -1,27 +1,20 @@
 const style = require('./style');
 
-module.exports = (config, modules) => {
+module.exports = (config, modules, include) => {
   const use = style(config, 'less', modules);
 
   if (modules === false) {
     return {
       test: /\.less$/,
-      include: /(node_modules)/,
-      use,
-    }
-  }
-
-  if (modules === undefined) {
-    return {
-      test: /\.less$/,
-      exclude: /(node_modules)/,
+      include: /(node_modules\/antd)/,
       use,
     }
   }
 
   return {
     test: /\.less$/,
-    include: modules,
+    exclude: include ? undefined : /(node_modules)/,
+    include,
     use,
   }
 }

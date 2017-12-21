@@ -5,7 +5,7 @@ module.exports = (config, modules, include) => {
   const use = style(config, 'sass', modules);
 
   if (modules === false) {
-    const reg = new RegExp(isWindow ? 'node_modules\\antd' : 'node_modules/antd');
+    const reg = new RegExp(isWindow ? 'node_modules\\\\antd' : 'node_modules/antd');
     return {
       test: /\.scss$/,
       include: reg,

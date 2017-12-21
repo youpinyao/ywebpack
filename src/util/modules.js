@@ -27,7 +27,7 @@ module.exports = function (config) {
   if (config.buildInclude) {
 
     if (isWindow) {
-      config.buildInclude = config.buildInclude.replace(/\//g, '\\');
+      config.buildInclude = config.buildInclude.replace(/\//g, '\\\\');
     }
 
     config.buildInclude = new RegExp(config.buildInclude);

@@ -30,6 +30,8 @@ module.exports = function (config) {
       config.buildInclude = config.buildInclude.replace(/\//g, '\\');
     }
 
+    config.buildInclude = new RegExp(config.buildInclude);
+
     modules.rules.push(html(config, config.buildInclude));
     modules.rules.push(css(config, undefined, config.buildInclude));
     modules.rules.push(sass(config, undefined, config.buildInclude));

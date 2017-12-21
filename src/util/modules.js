@@ -43,7 +43,8 @@ module.exports = function (config) {
 
   if (config.env === 'development') {
     // 如果是调试，对调试依赖也进行babel
-    modules.rules.push(babel(config, /(\/webpack)/));
+    const reg = new RegExp(isWindow ? '(\\\\webpack)' : '(/webpack)');
+    modules.rules.push(babel(config, reg));
   }
 
   return modules;

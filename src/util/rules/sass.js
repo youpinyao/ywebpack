@@ -1,4 +1,5 @@
 const style = require('./style');
+const isWindow = require('../isWindow');
 
 module.exports = (config, modules, include) => {
   const use = style(config, 'sass', modules);

@@ -4,9 +4,10 @@ module.exports = (config, modules, include) => {
   const use = style(config, 'less', modules);
 
   if (modules === false) {
+    const reg = new RegExp(isWindow ? 'node_modules\\antd' : 'node_modules/antd');
     return {
       test: /\.less$/,
-      include: /(node_modules\/antd)/,
+      include: reg,
       use,
     }
   }

@@ -4,9 +4,10 @@ module.exports = (config, modules, include) => {
   const use = style(config, 'sass', modules);
 
   if (modules === false) {
+    const reg = new RegExp(isWindow ? 'node_modules\\antd' : 'node_modules/antd');
     return {
-      test: /\.sass$/,
-      include: /(node_modules\/antd)/,
+      test: /\.scss$/,
+      include: reg,
       use,
     }
   }

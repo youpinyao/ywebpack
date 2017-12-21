@@ -5,6 +5,7 @@ const less = require('./rules/less');
 const eslint = require('./rules/eslint');
 const babel = require('./rules/babel');
 const assets = require('./rules/assets');
+const isWindow = require('./isWindow');
 
 module.exports = function (config) {
   const modules = {
@@ -24,6 +25,11 @@ module.exports = function (config) {
 
   // 如果某些的特定的依赖需要同项目一样构建
   if (config.buildInclude) {
+
+    if (isWindow) {
+      config.buildInclude = config.buildInclude.repace(/\//g, '\\');
+    }
+
     modules.rules.push(html(config, config.buildInclude));
     modules.rules.push(css(config, undefined, config.buildInclude));
     modules.rules.push(sass(config, undefined, config.buildInclude));

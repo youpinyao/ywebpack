@@ -27,7 +27,7 @@ module.exports = function (config) {
   if (config.buildInclude) {
 
     if (isWindow) {
-      config.buildInclude = config.buildInclude.repace(/\//g, '\\');
+      config.buildInclude = config.buildInclude.replace(/\//g, '\\');
     }
 
     modules.rules.push(html(config, config.buildInclude));

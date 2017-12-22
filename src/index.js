@@ -28,6 +28,11 @@ commander
     run('build', path);
   }).parse(process.argv);
 
+// 默认输入帮助
+if (!process.argv.slice(2).length) {
+  commander.outputHelp();
+}
+
 function run(type, configPath) {
 
   if (configPath && fs.existsSync(path.resolve(process.cwd(), configPath))) {

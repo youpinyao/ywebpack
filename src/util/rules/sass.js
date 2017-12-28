@@ -14,7 +14,7 @@ module.exports = (config, modules, include) => {
   }
 
   return {
-    test: /\.sass$/,
+    test: /\.scss$/,
     exclude: include ? undefined : /(node_modules)/,
     include,
     use,

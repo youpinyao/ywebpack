@@ -8,7 +8,8 @@ const html = require('./html');
 module.exports = (config) => {
   return [
     new webpack.ProvidePlugin({
-      _: 'underscore'
+      _: 'underscore',
+      'Promise': 'promise',
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),

@@ -8,7 +8,7 @@ module.exports = (config) => {
   config.entrys.forEach(v => {
     const jsName = name(v.entry);
 
-    entry[jsName] = [path.resolve(__dirname, './vendor.js'), path.resolve(process.cwd(), v.entry)];
+    entry[jsName] = [path.resolve(process.cwd(), v.entry)];
 
     if (isDev) {
       entry[jsName] = entry[jsName].concat([

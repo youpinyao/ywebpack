@@ -1,6 +1,12 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = (config, type, modules) => {
+  if (!config.cssOptions) {
+    config.cssOptions = {};
+  }
+  if (modules === false) {
+    config.cssOptions.modules = false;
+  }
 
   const types = {
     css: {
@@ -8,9 +14,9 @@ module.exports = (config, type, modules) => {
       options: Object.assign({
         minimize: config.env !== 'development',
         localIdentName: '[local]-[hash:base64:10]',
-        modules: modules !== false,
+        modules: true,
         camelCase: true,
-      }, config.cssOptions || {})
+      }, config.cssOptions)
     },
     less: {
       loader: 'less-loader',

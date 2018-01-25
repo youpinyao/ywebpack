@@ -42,7 +42,10 @@ module.exports = {
   // 对应环境独立的配置
   production: {}, // 对build进行独立配置
   // 如果某些的特定的依赖需要同项目一样构建，正则表达式
-  buildInclude: 'node_modules/antd', // 需要对特定依赖进行babel，eslint，loader之类的处理，只能字符串
+  buildInclude: [{
+    include: 'node_modules/antd',
+    cssModules: false, // 是否css modules
+  }], // 需要对特定依赖进行babel，eslint，loader之类的处理，只能字符串
 };
 
 ```

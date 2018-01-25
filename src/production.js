@@ -2,7 +2,14 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const baseConfig = require('./util/base');
 
-module.exports = function(config) {
+module.exports = function (config) {
+  let buildInclude = config.buildInclude;
+  if (typeof buildInclude === 'string') {
+    buildInclude = [{
+      include: buildInclude,
+    }];
+  }
+
   return webpackMerge(baseConfig(config), config.webpackMerge || {}, {
     plugins: [
       new webpack.LoaderOptionsPlugin({
@@ -16,11 +23,17 @@ module.exports = function(config) {
         minChunks(module) {
           // this assumes your vendor imports exist in the node_modules directory
           if (module.context) {
-            if (config.buildInclude && config.buildInclude.test(module.context)) {
-              return false;
-            }
-            if (/node_modules\/antd/g.test(module.context)) {
-              return false;
+            let hasInclude = false;
+            if (buildInclude) {
+              buildInclude.forEach(item => {
+                if ((new RegExp(item.include)).test(module.context)) {
+                  hasInclude = true;
+                }
+              });
+              console.log('====================================');
+              console.log(module.context);
+              console.log('====================================');
+              return !hasInclude;
             }
           }
           return module.context && module.context.indexOf('node_modules') !== -1;

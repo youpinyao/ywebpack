@@ -12,11 +12,8 @@ module.exports = function (config) {
     rules: [
       html(config),
       css(config),
-      css(config, false),
       sass(config),
-      sass(config, false),
       less(config),
-      less(config, false),
       babel(config),
       eslint(config),
       assets(config),
@@ -25,20 +22,31 @@ module.exports = function (config) {
 
   // 如果某些的特定的依赖需要同项目一样构建
   if (config.buildInclude) {
-
-    if (isWindow) {
-      config.buildInclude = config.buildInclude.replace(/\//g, '\\\\');
+    let buildInclude = config.buildInclude;
+    if (typeof buildInclude === 'string') {
+      buildInclude = [{
+        include: buildInclude,
+      }];
     }
 
-    config.buildInclude = new RegExp(config.buildInclude);
+    buildInclude.forEach(item => {
+      let include = item.include;
+      let cssModules = item.cssModules;
 
-    modules.rules.push(html(config, config.buildInclude));
-    modules.rules.push(css(config, undefined, config.buildInclude));
-    modules.rules.push(sass(config, undefined, config.buildInclude));
-    modules.rules.push(less(config, undefined, config.buildInclude));
-    modules.rules.push(babel(config, config.buildInclude));
-    modules.rules.push(eslint(config, config.buildInclude));
-    modules.rules.push(assets(config, config.buildInclude));
+      if (isWindow) {
+        include = include.replace(/\//g, '\\\\');
+      }
+
+      include = new RegExp(include);
+
+      modules.rules.push(html(config, include));
+      modules.rules.push(css(config, include, cssModules));
+      modules.rules.push(sass(config, include, cssModules));
+      modules.rules.push(less(config, include, cssModules));
+      modules.rules.push(babel(config, include));
+      modules.rules.push(eslint(config, include));
+      modules.rules.push(assets(config, include));
+    });
   }
 
   if (config.env === 'development') {

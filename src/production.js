@@ -20,21 +20,21 @@ module.exports = function (config) {
       // 输出公共模块
       new webpack.optimize.CommonsChunkPlugin({
         name: ['vendor'],
-        // minChunks(module) {
-        //   // this assumes your vendor imports exist in the node_modules directory
-        //   if (module.context) {
-        //     let hasInclude = false;
-        //     if (buildInclude) {
-        //       buildInclude.forEach(item => {
-        //         if ((new RegExp(item.include)).test(module.context)) {
-        //           hasInclude = true;
-        //         }
-        //       });
-        //       return !hasInclude;
-        //     }
-        //   }
-        //   return module.context && module.context.indexOf('node_modules') !== -1;
-        // }
+        minChunks(module) {
+          // this assumes your vendor imports exist in the node_modules directory
+          if (module.context) {
+            let hasInclude = false;
+            if (buildInclude) {
+              buildInclude.forEach(item => {
+                if ((new RegExp(item.include)).test(module.context)) {
+                  hasInclude = true;
+                }
+              });
+              return !hasInclude;
+            }
+          }
+          return module.context && module.context.indexOf('node_modules') !== -1;
+        }
       }),
 
       new webpack.DefinePlugin({

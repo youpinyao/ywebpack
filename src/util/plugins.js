@@ -20,6 +20,7 @@ module.exports = (config) => {
     new ExtractTextPlugin({
       filename: '[name].[contenthash].css',
       disable: config.env === 'development',
+      allChunks: true,
     }),
   ].concat(html(config));
 }

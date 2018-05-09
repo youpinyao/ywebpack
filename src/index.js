@@ -91,7 +91,7 @@ function run(type, configPath) {
         });
 
         if (!baseConfig.vendors && !baseConfig.vendor) {
-          runDev();
+          runDev(webpackConfig);
         } else {
           const dllCompiler = webpack(configs.dll(baseConfig));
 

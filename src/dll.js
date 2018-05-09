@@ -35,17 +35,19 @@ module.exports = function (config) {
     vendors = [vendors];
   }
 
-  vendors = vendors.map((vendor) => {
-    let newVendor = '';
+  if (vendors) {
+    vendors = vendors.map((vendor) => {
+      let newVendor = '';
 
-    try {
-      newVendor = require.resolve(vendor);
-    } catch (e) {
-      newVendor = path.resolve(process.cwd(), vendor);
-    }
+      try {
+        newVendor = require.resolve(vendor);
+      } catch (e) {
+        newVendor = path.resolve(process.cwd(), vendor);
+      }
 
-    return newVendor;
-  });
+      return newVendor;
+    });
+  }
 
   return {
     entry: {

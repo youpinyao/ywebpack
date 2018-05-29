@@ -4,6 +4,7 @@ module.exports = {
   publicPath: '/',
   path: 'dist',
   vendors: ['jquery'],
+  hash: true,
   entrys: [{
     template: 'test/index.html',
     filename: 'index.html',

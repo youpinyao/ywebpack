@@ -6,6 +6,15 @@ const WebpackChunkHash = require('webpack-chunk-hash');
 const html = require('./html');
 
 module.exports = (config) => {
+  let hash = '.[contenthash]';
+
+  if (config.hash === false) {
+    hash = '';
+  }
+  if (typeof config.hash === 'string') {
+    hash = config.hash;
+  }
+
   return [
     new webpack.ProvidePlugin({
       _: 'underscore',
@@ -18,7 +27,7 @@ module.exports = (config) => {
     new ProgressBarPlugin(),
     new webpack.NamedModulesPlugin(),
     new ExtractTextPlugin({
-      filename: '[name].[contenthash].css',
+      filename: `[name]${hash}.css`,
       disable: config.env === 'development',
       allChunks: true,
     }),

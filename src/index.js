@@ -116,20 +116,20 @@ function runDev(webpackConfig) {
   // 这段不能加。。。
   // compiler.run(runCallback);
 
-  compiler.plugin('invalid', function () {
-    clearConsole();
+  compiler.hooks.invalid.tap('SyncHook', function () {
+    // clearConsole();
     cDate = +new Date();
-    console.log(chalk.green('Compiling'));
+    console.log(chalk.yellow('Compiling'));
   });
 
   // "done" event fires when Webpack has finished recompiling the bundle.
   // Whether or not you have warnings or errors, you will get this event.
-  compiler.plugin('done', function (stats) {
-    clearConsole();
+  compiler.hooks.done.tap('SyncHook', function (stats) {
+    // clearConsole();
     const ncDate = +new Date();
 
-    console.log(chalk.green(`http://${config.devServer.host}:${config.devServer.port}${config.output.publicPath}`));
-    console.log(chalk.green(`Compiled ${ncDate - cDate}ms`));
+    console.log(chalk.green(`-----------------------------`));
+    console.log();
   });
 
   const devServer = new WebpackDevServer(compiler, config.devServer);
@@ -139,8 +139,10 @@ function runDev(webpackConfig) {
       console.log(chalk.red(serr));
       return;
     }
-    clearConsole();
+    // clearConsole();
     console.log(chalk.cyan('\r\n\r\nStarting the development server...\r\n'));
+    console.log(chalk.green(`http://${config.devServer.host}:${config.devServer.port}${config.output.publicPath}`));
+    console.log();
   });
 }
 

@@ -16,6 +16,7 @@ module.exports = function (config) {
   }
 
   return {
+    mode: config.env,
     cache: true,
     entry: entry(config),
     output: {

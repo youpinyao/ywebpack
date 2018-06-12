@@ -4,15 +4,14 @@ const webpackMerge = require('webpack-merge');
 const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
-const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const base = require('./util/base');
 
 module.exports = function (config) {
   const baseConfig = base(config);
 
-  const dllCssPath = '.dll/vendor.dll.css';
-  const dllJsPath = '.dll/vendor.dll.js';
+  const dllCssPath = path.resolve(process.cwd(), '.dll/vendor.dll.css');
+  const dllJsPath = path.resolve(process.cwd(), '.dll/vendor.dll.js');
   const assets = [];
 
   if (fs.existsSync(dllJsPath)) {
@@ -24,26 +23,24 @@ module.exports = function (config) {
 
   const plugins = [
     new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackIncludeAssetsPlugin({
-      assets,
-      append: false,
-      publicPath: '/',
-      hash: true,
-    }),
-
-
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('development')
-      }
-    }),
+    // new webpack.DefinePlugin({
+    //   'process.env': {
+    //     NODE_ENV: JSON.stringify('development')
+    //   }
+    // }),
   ];
 
   if (assets.length) {
     plugins.push(new webpack.DllReferencePlugin({
       context: path.resolve(process.cwd()),
-      manifest: require(path.resolve(process.cwd(), '.dll/vendor-manifest.json'))
+      manifest: require(path.resolve(process.cwd(), '.dll/vendor-manifest.json')),
     }));
+    plugins.push(new AddAssetHtmlPlugin(assets.map(filepath => ({
+      filepath,
+      typeOfAsset: filepath.split('.')[filepath.split('.').length - 1],
+      includeSourcemap: false,
+      hash: true,
+    }))));
   }
 
   return webpackMerge(baseConfig, {

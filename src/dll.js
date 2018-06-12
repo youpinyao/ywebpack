@@ -50,6 +50,7 @@ module.exports = function (config) {
   }
 
   return {
+    mode: 'production',
     entry: {
       vendor: vendors,
     },

@@ -6,7 +6,7 @@ const WebpackChunkHash = require('webpack-chunk-hash');
 const html = require('./html');
 
 module.exports = (config) => {
-  let hash = '.[contenthash]';
+  let hash = '.[hash]';
 
   if (config.hash === false) {
     hash = '';

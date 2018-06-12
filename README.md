@@ -23,6 +23,7 @@ module.exports = {
   publicPath: '/', // 访问路径前缀
   path: 'dist', // 构建目录路径
   vendors: ['jquery'], // 需要预构建到dll的依赖
+  hash: true, // 是否开启文件hash
   entrys: [{
     template: 'test/index.html', // html 输入
     filename: 'index.html', // html 输出

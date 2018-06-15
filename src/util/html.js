@@ -14,7 +14,7 @@ module.exports = (config) => {
     const chunks = [jsName];
 
     if (isDev !== true) {
-      chunks.push(`vendors~${jsName}`);
+      chunks.push('vendor');
     }
 
     if (htmlName) {

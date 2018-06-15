@@ -54,7 +54,7 @@ module.exports = function (config) {
       maxAsyncRequests: 5,
       maxInitialRequests: 3,
       automaticNameDelimiter: '~',
-      name: true,
+      name: 'vendor',
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,

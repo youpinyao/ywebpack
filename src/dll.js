@@ -7,7 +7,7 @@ const base = require('./util/base');
 
 const plugins = [
   // 输出 css
-  new ExtractTextPlugin(path.resolve(process.cwd(), '.dll/[name].dll.css')),
+  new ExtractTextPlugin('[name].dll.css'),
   new webpack.DllPlugin({
     /**
      * path
@@ -52,6 +52,10 @@ module.exports = function (config) {
     });
   }
 
+  delete baseConfig.entry;
+  delete baseConfig.output;
+  delete baseConfig.plugins;
+
   return webpackMerge(baseConfig, {
     mode: 'production',
     entry: {
@@ -60,6 +64,7 @@ module.exports = function (config) {
     output: {
       path: path.resolve(process.cwd(), '.dll'),
       filename: '[name].dll.js',
+      publicPath: '/.dll/',
       /**
        * output.library
        * 将会定义为 window.${output.library}
@@ -67,7 +72,6 @@ module.exports = function (config) {
        */
       library: '[name]_library',
     },
-    module: modules({}),
     plugins,
   }, config.webpackMerge || {});
 };

@@ -1,7 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const modules = require('./util/modules');
+const base = require('./util/base');
 
 const plugins = [
   // 输出 css
@@ -24,6 +26,7 @@ const plugins = [
 ];
 
 module.exports = function (config) {
+  const baseConfig = base(config);
 
   let vendors = config.vendors;
 
@@ -49,7 +52,8 @@ module.exports = function (config) {
     });
   }
 
-  return {
+  return webpackMerge(baseConfig, {
+    mode: 'production',
     entry: {
       vendor: vendors,
     },
@@ -65,5 +69,5 @@ module.exports = function (config) {
     },
     module: modules({}),
     plugins,
-  };
+  }, config.webpackMerge || {});
 };

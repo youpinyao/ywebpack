@@ -5,12 +5,12 @@ module.exports = (config, include) => {
     include,
     use: [{
       loader: 'html-loader',
-      options: {
+      options: Object.assign({
         interpolate: true,
         ignoreCustomFragments: [/\{\{.*?}}/],
         attrs: ['img:src', 'link:href', 'audio:src', 'video:src', 'script:src', 'div:data-src'],
-        minimize: false
-      }
+        minimize: false,
+      }, config.htmlOptions),
     }]
   }
 };

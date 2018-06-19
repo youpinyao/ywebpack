@@ -21,7 +21,11 @@ module.exports = function (config) {
       uglifyOptions: {
         ecma: 8,
         warnings: false,
-        compress: true,
+        compress: {
+          warnings: false,
+          drop_debugger: true,
+          drop_console: true,
+        },
         mangle: true,
         output: {
           comments: false,

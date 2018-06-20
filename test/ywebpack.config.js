@@ -29,5 +29,15 @@ module.exports = {
   // 对应环境独立的配置
   production: {},
   // 如果某些的特定的依赖需要同项目一样构建，正则表达式
-  buildInclude: undefined,
+  // buildInclude: undefined,
+
+  buildInclude: [{
+    include: '(node_modules/meetyou-antd-base)',
+  }, {
+    include: '(node_modules/antd)',
+    cssModules: false,
+  }, {
+    include: '(node_modules/lightgallery.js)',
+    cssModules: false,
+  }],
 };

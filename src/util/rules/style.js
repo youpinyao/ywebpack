@@ -1,11 +1,10 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (config, type, modules) => {
-  if (!config.cssOptions) {
-    config.cssOptions = {};
-  }
+  const cssOptions = Object.assign({}, config.cssOptions || {});
+
   if (modules === false) {
-    config.cssOptions.modules = false;
+    cssOptions.modules = false;
   }
 
   const types = {
@@ -16,7 +15,7 @@ module.exports = (config, type, modules) => {
         localIdentName: '[local]-[hash:base64:10]',
         modules: true,
         camelCase: true,
-      }, config.cssOptions)
+      }, cssOptions)
     },
     less: {
       loader: 'less-loader',
@@ -57,8 +56,11 @@ module.exports = (config, type, modules) => {
     use.push(types[type]);
   }
 
-  return ExtractTextPlugin.extract({
-    fallback: 'style-loader',
-    use,
-  })
+  if (config.env === 'production') {
+    return [
+      MiniCssExtractPlugin.loader,
+    ].concat(use);
+  }
+
+  return ['style-loader'].concat(use);
 }

@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const WebpackChunkHash = require('webpack-chunk-hash');
 const html = require('./html');
@@ -15,7 +15,7 @@ module.exports = (config) => {
     hash = config.hash;
   }
 
-  return [
+  const plugins = [
     new webpack.ProvidePlugin({
       _: 'underscore',
       'Promise': 'promise',
@@ -26,10 +26,14 @@ module.exports = (config) => {
     new WebpackChunkHash(),
     new ProgressBarPlugin(),
     new webpack.NamedModulesPlugin(),
-    new ExtractTextPlugin({
-      filename: `[name]${hash}.css`,
-      disable: config.env === 'development',
-      allChunks: true,
-    }),
   ].concat(html(config));
+
+  if (config.env === 'production') {
+    plugins.push(new MiniCssExtractPlugin({
+      filename: `[name]${hash}.css`,
+      chunkFilename: `[name]${hash}.css`,
+    }));
+  }
+
+  return plugins;
 }

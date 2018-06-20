@@ -1,13 +1,18 @@
 const path = require('path');
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const modules = require('./util/modules');
 const base = require('./util/base');
 
 const plugins = [
   // 输出 css
-  new ExtractTextPlugin('[name].dll.css'),
+  new MiniCssExtractPlugin({
+    // Options similar to the same options in webpackOptions.output
+    // both options are optional
+    filename: '[name].dll.css',
+    chunkFilename: '[name].dll.css'
+  }),
   new webpack.DllPlugin({
     /**
      * path

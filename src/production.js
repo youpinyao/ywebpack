@@ -24,7 +24,8 @@ module.exports = function (config) {
         compress: {
           warnings: false,
           drop_debugger: true,
-          drop_console: true,
+          // drop_console: true,
+          pure_funcs: ['console.log'],
         },
         mangle: true,
         output: {

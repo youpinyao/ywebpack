@@ -5,10 +5,10 @@ module.exports = (config, include) => {
     include,
     use: [{
       loader: 'url-loader',
-      options: {
+      options: Object.assign({
         name: '[name].[hash].[ext]',
         limit: 10000
-      }
+      }, config.urlOptions)
     }]
   }
 };

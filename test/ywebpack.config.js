@@ -18,6 +18,7 @@ module.exports = {
   lessOptions: undefined,
   sassOptions: undefined,
   htmlOptions: undefined,
+  urlOptions: undefined,
   extraBabelPresets: [],
   extraBabelPlugins: [],
   webpackMerge: {},

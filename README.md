@@ -33,6 +33,7 @@ module.exports = {
   lessOptions: undefined, // less-loader 额外options
   sassOptions: undefined, // sass-loader 额外options
   htmlOptions: undefined, // html-loader 额外options
+  urlOptions: undefined, // url-loader 额外options
   extraBabelPresets: [], // babel-loader 额外presets
   extraBabelPlugins: [],// babel-loader 额外plugins
   webpackMerge: {}, // 直接覆盖预设webpack配置

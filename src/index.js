@@ -40,7 +40,7 @@ function init() {
   // 复制文件
   fs.copyFileSync(path.resolve(__dirname, './template/ywebpack.config.js'), path.resolve(process.cwd(), './ywebpack.config.js'));
 
-  const jsonPath = path.resolve(__dirname, '../package.json');
+  const jsonPath = path.resolve(process.cwd(), '../package.json');
 
   if(!fs.existsSync(jsonPath)) {
     console.log(chalk.red('file package.json could not be find'));

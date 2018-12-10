@@ -1,6 +1,6 @@
 {
   "name": "ywebpack",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "webpack",
   "main": "src/index.js",
   "scripts": {

@@ -18,6 +18,9 @@ const configs = {
 
 commander
   .version(require('../package.json').version)
+  .option('--init, init', 'init a config file', function () {
+    init();
+  })
   .option('--start, start [configPath]', 'start a dev server', function (path) {
     run('start', path);
   })
@@ -31,6 +34,31 @@ commander
 // 默认输入帮助
 if (!process.argv.slice(2).length) {
   commander.outputHelp();
+}
+
+function init() {
+  // 复制文件
+  fs.copyFileSync(path.resolve(__dirname, './template/ywebpack.config.js'), path.resolve(process.cwd(), './ywebpack.config.js'));
+
+  const jsonPath = path.resolve(__dirname, '../package.json');
+
+  if(!fs.existsSync(jsonPath)) {
+    console.log(chalk.red('file package.json could not be find'));
+    return;
+  }
+
+  const json = JSON.parse(fs.readFileSync(jsonPath, {
+    encoding: 'utf-8',
+  }).toString());
+
+  json.scripts.start = 'ywebpack start ./ywebpack.config.js';
+  json.scripts.build = 'ywebpack build ./ywebpack.config.js';
+
+  fs.writeFileSync(jsonPath, JSON.stringify(json, null, 2), {
+    encoding: 'utf-8',
+  });
+
+  console.log(chalk.green('init completed'));
 }
 
 function run(type, configPath) {

@@ -13,6 +13,7 @@ let baseConfig = require('./config');
 const configs = {
   build: require('./production'),
   start: require('./development'),
+  watch: require('./development'),
   dll: require('./dll'),
 };
 
@@ -23,6 +24,9 @@ commander
   })
   .option('--start, start [configPath]', 'start a dev server', function (path) {
     run('start', path);
+  })
+  .option('--watch, watch [configPath]', 'watch a dev server', function (path) {
+    run('watch', path);
   })
   .option('--dll, dll [configPath]', 'build dll', function (path) {
     run('dll', path);
@@ -42,7 +46,7 @@ function init() {
 
   const jsonPath = path.resolve(process.cwd(), './package.json');
 
-  if(!fs.existsSync(jsonPath)) {
+  if (!fs.existsSync(jsonPath)) {
     console.log(chalk.red('file package.json could not be find'));
     return;
   }
@@ -52,6 +56,7 @@ function init() {
   }).toString());
 
   json.scripts.start = 'ywebpack start ./ywebpack.config.js';
+  json.scripts.watch = 'ywebpack watch ./ywebpack.config.js';
   json.scripts.build = 'ywebpack build ./ywebpack.config.js';
 
   fs.writeFileSync(jsonPath, JSON.stringify(json, null, 2), {
@@ -68,7 +73,7 @@ function run(type, configPath) {
   }
 
   // 设置开发环境
-  if (type === 'start') {
+  if (type === 'start' || type === 'watch') {
     baseConfig.env = 'development';
     if (baseConfig.development) {
       baseConfig = Object.assign(baseConfig, baseConfig.development);
@@ -112,6 +117,7 @@ function run(type, configPath) {
       });
 
       break;
+    case 'watch':
     case 'start':
       {
         del.sync([path.resolve(process.cwd(), '.dll')], {
@@ -126,7 +132,7 @@ function run(type, configPath) {
           dllCompiler.run((err, stats) => {
             if (runCallback(err, stats)) {
               console.log(chalk.green('\r\n dll complete \r\n'));
-              runDev(webpackConfig);
+              runDev(webpackConfig, type);
             }
           });
         }
@@ -136,7 +142,7 @@ function run(type, configPath) {
   }
 }
 
-function runDev(webpackConfig) {
+function runDev(webpackConfig, type) {
   const config = webpackConfig(baseConfig);
   const compiler = webpack(config);
   let cDate = +new Date();
@@ -159,19 +165,28 @@ function runDev(webpackConfig) {
     console.log(chalk.green(`-----------------------------`));
     console.log();
   });
+  if (type === 'start') {
+    const devServer = new WebpackDevServer(compiler, config.devServer);
 
-  const devServer = new WebpackDevServer(compiler, config.devServer);
-
-  devServer.listen(config.devServer.port, config.devServer.host, function (serr) {
-    if (serr) {
-      console.log(chalk.red(serr));
-      return;
-    }
-    // clearConsole();
-    console.log(chalk.cyan('\r\n\r\nStarting the development server...\r\n'));
-    console.log(chalk.green(`${config.devServer.https ? 'https' : 'http'}://${config.devServer.host}:${config.devServer.port}${config.output.publicPath}`));
-    console.log();
-  });
+    devServer.listen(config.devServer.port, config.devServer.host, function (serr) {
+      if (serr) {
+        console.log(chalk.red(serr));
+        return;
+      }
+      // clearConsole();
+      console.log(chalk.cyan('\r\n\r\nStarting the development server...\r\n'));
+      console.log(chalk.green(`${config.devServer.https ? 'https' : 'http'}://${config.devServer.host}:${config.devServer.port}${config.output.publicPath}`));
+      console.log();
+    });
+  } else {
+    compiler.watch({
+      aggregateTimeout: 300
+    }, (err, stats) => {
+      // if (runCallback(err, stats)) {
+      //   console.log(chalk.green('[webpack]: build done!\r\n'));
+      // }
+    });
+  }
 }
 
 

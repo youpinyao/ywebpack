@@ -1,10 +1,11 @@
 {
   "name": "ywebpack",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "webpack",
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon -w ./src ./src/index.js start ./test/ywebpack.config.js",
+    "watch": "nodemon -w ./src ./src/index.js watch ./test/ywebpack.config.js",
     "build": "node ./src/index.js build ./test/ywebpack.config.js",
     "dll": "node ./src/index.js dll ./test/ywebpack.config.js"
   },

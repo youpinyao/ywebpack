@@ -21,6 +21,9 @@ module.exports = {
   afterBuild() {
     console.log('afterBuild');
   },
+  afterStart() {
+    console.log('afterStart');
+  },
   // 对应环境独立的配置
   development: {},
   // 对应环境独立的配置

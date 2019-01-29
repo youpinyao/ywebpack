@@ -177,6 +177,10 @@ function runDev(webpackConfig, type) {
       console.log(chalk.cyan('\r\n\r\nStarting the development server...\r\n'));
       console.log(chalk.green(`${config.devServer.https ? 'https' : 'http'}://${config.devServer.host}:${config.devServer.port}${config.output.publicPath}`));
       console.log();
+
+      if (baseConfig.afterStart) {
+        baseConfig.afterStart(baseConfig);
+      }
     });
   } else {
     compiler.watch({

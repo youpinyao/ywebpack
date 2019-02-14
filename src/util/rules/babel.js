@@ -24,6 +24,13 @@ module.exports = (config, include) => {
       }
     }]
   }
+
+  // 如果是生产环境就全部babel
+  if (config.env !== 'production') {
+    babelConfig.exclude = undefined;
+    babelConfig.include = undefined;
+  }
+
   if (config.extraBabelPresets) {
     babelConfig.use[0].options.presets = babelConfig.use[0].options.presets.concat(config.extraBabelPresets);
   }

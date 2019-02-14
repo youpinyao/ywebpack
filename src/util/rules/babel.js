@@ -27,7 +27,7 @@ module.exports = (config, include) => {
 
   // 如果是生产环境就全部babel
   if (config.env === 'production') {
-    babelConfig.exclude = undefined;
+    babelConfig.exclude = /(core-js|babel)/;
     babelConfig.include = undefined;
   }
 

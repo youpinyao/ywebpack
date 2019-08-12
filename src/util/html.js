@@ -5,6 +5,7 @@ const path = require('path');
 module.exports = (config) => {
   const plugins = [];
   const isDev = config.env === 'development';
+  const htmlPluginOptions = config.htmlPluginOptions || {};
   const entrys = config.entrys;
 
   entrys.forEach(v => {
@@ -25,6 +26,7 @@ module.exports = (config) => {
         template: path.resolve(process.cwd(), v.template),
         chunks,
         inject: 'body', // true | 'head' | 'body' | false
+        ...htmlPluginOptions,
       }));
     }
   });

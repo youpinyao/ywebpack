@@ -15,6 +15,7 @@ module.exports = {
   sassOptions: undefined, // loader
   htmlOptions: undefined, // loader
   urlOptions: undefined, // loader
+  htmlPluginOptions: undefined, // html-webpack-plugin
   extraBabelPresets: [],
   extraBabelPlugins: [],
   webpackMerge: {},

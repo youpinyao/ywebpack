@@ -3,6 +3,8 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const WebpackChunkHash = require('webpack-chunk-hash');
+const WorkboxPlugin = require('workbox-webpack-plugin');
+
 const html = require('./html');
 
 module.exports = (config) => {
@@ -18,7 +20,7 @@ module.exports = (config) => {
   const plugins = [
     new webpack.ProvidePlugin({
       _: 'underscore',
-      'Promise': 'promise',
+      Promise: 'promise',
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
@@ -28,6 +30,10 @@ module.exports = (config) => {
     new webpack.NamedModulesPlugin(),
   ].concat(html(config));
 
+  if (config.swOptions) {
+    plugins.push(new WorkboxPlugin.GenerateSW(config.swOptions === true ? {} : config.swOptions));
+  }
+
   if (config.env === 'production') {
     plugins.push(new MiniCssExtractPlugin({
       filename: `[name]${hash}.css`,
@@ -36,4 +42,4 @@ module.exports = (config) => {
   }
 
   return plugins;
-}
+};

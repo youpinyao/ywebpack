@@ -21,6 +21,7 @@ module.exports = {
   urlOptions: undefined,
   extraBabelPresets: [],
   extraBabelPlugins: [],
+  swOptions: true,
   webpackMerge: {},
   afterBuild() {
     console.log('afterBuild');

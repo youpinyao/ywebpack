@@ -56,6 +56,10 @@ module.exports = {
 ## service worker
 
 ```node
+config
+
+swOption: true,
+
 add to html head
 <script>
 // Check that service workers are supported

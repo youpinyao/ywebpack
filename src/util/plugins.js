@@ -8,7 +8,7 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 const html = require('./html');
 
 module.exports = (config) => {
-  let hash = '.[hash]';
+  let hash = config.env === 'development' ? '.[hash]' : '.[contenthash]';
 
   if (config.hash === false) {
     hash = '';

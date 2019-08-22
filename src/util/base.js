@@ -6,7 +6,7 @@ const entry = require('./entry');
 const modules = require('./modules');
 
 module.exports = function (config) {
-  let hash = '.[hash]';
+  let hash = config.env === 'development' ? '.[hash]' : '.[contenthash]';
 
   if (config.hash === false) {
     hash = '';

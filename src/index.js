@@ -104,9 +104,6 @@ function run(type, configPath) {
         const dllConfig = webpackConfig(baseConfig, true);
 
         if (dllConfig) {
-          del.sync([path.resolve(process.cwd(), '.dll')], {
-            force: true,
-          });
           webpack(dllConfig).run((err, stats) => {
             if (runCallback(err, stats)) {
               console.log(chalk.green('\r\ndll complete \r\n'));
@@ -117,17 +114,27 @@ function run(type, configPath) {
 
       break;
     case 'build':
-      del.sync([path.resolve(process.cwd(), baseConfig.path)], {
-        force: true,
-      });
-      webpack(webpackConfig(baseConfig)).run((err, stats) => {
-        if (runCallback(err, stats)) {
-          console.log(chalk.green('\r\nbuild complete \r\n'));
-          if (baseConfig.afterBuild) {
-            baseConfig.afterBuild(baseConfig);
-          }
+      {
+        const dllConfig = configs.dll(baseConfig);
+
+
+        del.sync([path.resolve(process.cwd(), baseConfig.path)], {
+          force: true,
+        });
+
+        if (dllConfig) {
+          const dllCompiler = webpack(dllConfig);
+
+          dllCompiler.run((err, stats) => {
+            if (runCallback(err, stats)) {
+              console.log(chalk.green('\r\n dll complete \r\n'));
+              runBuild(webpackConfig);
+            }
+          });
+        } else {
+          runBuild(webpackConfig);
         }
-      });
+      }
 
       break;
     case 'watch':
@@ -151,6 +158,17 @@ function run(type, configPath) {
       break;
     default:
   }
+}
+
+function runBuild(webpackConfig) {
+  webpack(webpackConfig(baseConfig)).run((err, stats) => {
+    if (runCallback(err, stats)) {
+      console.log(chalk.green('\r\nbuild complete \r\n'));
+      if (baseConfig.afterBuild) {
+        baseConfig.afterBuild(baseConfig);
+      }
+    }
+  });
 }
 
 function runDev(webpackConfig, type) {

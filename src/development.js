@@ -9,17 +9,7 @@ const base = require('./util/base');
 
 module.exports = (config) => {
   const baseConfig = base(config);
-
-  const dllCssPath = path.resolve(process.cwd(), '.dll/vendor.dll.css');
-  const dllJsPath = path.resolve(process.cwd(), '.dll/vendor.dll.js');
-  const assets = [];
-
-  if (fs.existsSync(dllJsPath)) {
-    assets.push(dllJsPath);
-  }
-  if (fs.existsSync(dllCssPath)) {
-    assets.push(dllCssPath);
-  }
+  let dllHash = path.resolve(process.cwd(), '.dll/.hash');
 
   const plugins = [
     new webpack.HotModuleReplacementPlugin(),
@@ -30,11 +20,27 @@ module.exports = (config) => {
     // }),
   ];
 
-  if (assets.length) {
+  if (fs.existsSync(dllHash)) {
+    dllHash = fs.readFileSync(dllHash);
+  } else {
+    dllHash = null;
+  }
+
+  if (dllHash.length) {
+    const dllCssPath = path.resolve(process.cwd(), `.dll/vendor.dll.${dllHash}.css`);
+    const dllJsPath = path.resolve(process.cwd(), `.dll/vendor.dll.${dllHash}.js`);
+    const assets = [];
+
+    if (fs.existsSync(dllJsPath)) {
+      assets.push(dllJsPath);
+    }
+    if (fs.existsSync(dllCssPath)) {
+      assets.push(dllCssPath);
+    }
     plugins.push(new webpack.DllReferencePlugin({
       context: path.resolve(process.cwd()),
       // eslint-disable-next-line
-      manifest: require(path.resolve(process.cwd(), '.dll/vendor-manifest.json')),
+        manifest: require(path.resolve(process.cwd(), `.dll/vendor.manifest.${dllHash}.json`)),
     }));
     plugins.push(new AddAssetHtmlPlugin(assets.map(filepath => ({
       filepath,

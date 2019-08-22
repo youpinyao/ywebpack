@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
+const del = require('delete');
 const chalk = require('chalk');
 const webpackMerge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -14,8 +15,8 @@ const plugins = (hash) => {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: `[name].dll${hash}.css`,
-      chunkFilename: `[name].dll${hash}.css`,
+      filename: `[name].dll.${hash}.css`,
+      chunkFilename: `[name].dll.${hash}.css`,
     }),
     new webpack.DllPlugin({
       /**
@@ -24,7 +25,7 @@ const plugins = (hash) => {
        * [name]的部分由entry的名字替换
        */
       context: path.resolve(process.cwd()),
-      path: `.dll/[name]${hash}-manifest.json`,
+      path: `.dll/[name].manifest.${hash}.json`,
       /**
        * name
        * dll bundle 输出到那个全局变量上
@@ -75,8 +76,19 @@ module.exports = (config, force = false) => {
 
   hash = hasha(hash.join(','), { algorithm: 'md5' });
 
-  if (fs.existsSync(path.resolve(outputPath, `${name}${hash}-manifest.json`)) && force === false) {
+  if (!fs.existsSync(outputPath)) {
+    fs.mkdirSync(outputPath);
+  }
+
+  fs.writeFileSync(path.resolve(outputPath, '.hash'), hash);
+
+  if (fs.existsSync(path.resolve(outputPath, `${name}.manifest.${hash}.json`)) && force === false) {
     return false;
+  }
+  if (force === true) {
+    del.sync([outputPath], {
+      force: true,
+    });
   }
 
   return webpackMerge(
@@ -88,7 +100,7 @@ module.exports = (config, force = false) => {
       },
       output: {
         path: outputPath,
-        filename: `[name].dll${hash}.js`,
+        filename: `[name].dll.${hash}.js`,
         publicPath: '/.dll/',
         /**
          * output.library

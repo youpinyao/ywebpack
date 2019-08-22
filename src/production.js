@@ -83,7 +83,7 @@ module.exports = (config) => {
         },
       },
     };
-  } else if (dllHash.length && config.vendors !== false && config.vendor !== false) {
+  } else if (dllHash && config.vendors !== false && config.vendor !== false) {
     const dllCssPath = path.resolve(process.cwd(), `.dll/vendor.dll.${dllHash}.css`);
     const dllJsPath = path.resolve(process.cwd(), `.dll/vendor.dll.${dllHash}.js`);
     const assets = [];

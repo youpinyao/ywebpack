@@ -27,7 +27,7 @@ module.exports = (config) => {
   }
 
   if (
-    dllHash.length &&
+    dllHash &&
     config.vendor !== true &&
     config.vendors !== true &&
     config.vendor !== false &&

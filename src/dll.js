@@ -69,7 +69,7 @@ module.exports = (config, force = false) => {
     console.log(chalk.yellow('vendors is boolean, just run in production'));
     return false;
   } else {
-    console.log(chalk.red('please config vendors'));
+    // console.log(chalk.red('please config vendors'));
     return false;
   }
 

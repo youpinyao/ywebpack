@@ -47,6 +47,7 @@
     "eslint-loader": "^2.0.0",
     "expose-loader": "^0.7.4",
     "file-loader": "^1.1.5",
+    "hasha": "^5.0.0",
     "html-loader": "^0.5.1",
     "html-webpack-plugin": "^3.2.0",
     "less": "^2.7.3",

@@ -5,11 +5,13 @@ module.exports = {
   path: 'dist',
   // vendors: ['jquery'],
   hash: true,
-  entrys: [{
-    template: 'app/index.html',
-    filename: 'index.html',
-    entry: 'app/index.js',
-  }],
+  entrys: [
+    {
+      template: 'app/index.html',
+      filename: 'index.html',
+      entry: 'app/index.js',
+    },
+  ],
   cssOptions: undefined, // loader
   lessOptions: undefined, // loader
   sassOptions: undefined, // loader

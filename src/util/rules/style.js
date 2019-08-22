@@ -10,12 +10,15 @@ module.exports = (config, type, modules) => {
   const types = {
     css: {
       loader: 'css-loader',
-      options: Object.assign({
-        minimize: config.env !== 'development',
-        localIdentName: '[local]-[hash:base64:10]',
-        modules: true,
-        camelCase: true,
-      }, cssOptions)
+      options: Object.assign(
+        {
+          minimize: config.env !== 'development',
+          localIdentName: '[local]-[hash:base64:10]',
+          modules: true,
+          camelCase: true,
+        },
+        cssOptions,
+      ),
     },
     less: {
       loader: 'less-loader',
@@ -33,17 +36,18 @@ module.exports = (config, type, modules) => {
       ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
       plugins() {
         return [
+          // eslint-disable-next-line
           require('autoprefixer')({
             browsers: [
               '>1%',
               'last 4 versions',
               'Firefox ESR',
               'not ie < 8', // doesn't support IE8 anyway
-            ]
-          })
+            ],
+          }),
         ];
-      }
-    }
+      },
+    },
   };
 
   const use = [types.css, postcss];
@@ -57,10 +61,8 @@ module.exports = (config, type, modules) => {
   }
 
   if (config.env === 'production') {
-    return [
-      MiniCssExtractPlugin.loader,
-    ].concat(use);
+    return [MiniCssExtractPlugin.loader].concat(use);
   }
 
   return ['style-loader'].concat(use);
-}
+};

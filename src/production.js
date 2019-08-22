@@ -3,12 +3,12 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpackMerge = require('webpack-merge');
 const baseConfig = require('./util/base');
 
-module.exports = function (config) {
+module.exports = (config) => {
   const optimization = {};
   const plugins = [
     new webpack.LoaderOptionsPlugin({
       minimize: false,
-      debug: false
+      debug: false,
     }),
     // don't need in webpack4
     // new webpack.DefinePlugin({
@@ -38,8 +38,8 @@ module.exports = function (config) {
         keep_classnames: undefined,
         keep_fnames: false,
         safari10: false,
-      }
-    })
+      },
+    }),
   ];
 
   if (config.vendors !== false && config.vendor !== false) {
@@ -63,15 +63,15 @@ module.exports = function (config) {
       cacheGroups: {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
-          priority: -10
+          priority: -10,
         },
         default: {
           minChunks: 2,
           priority: -20,
-          reuseExistingChunk: true
-        }
-      }
-    }
+          reuseExistingChunk: true,
+        },
+      },
+    };
   }
 
   return webpackMerge(baseConfig(config), config.webpackMerge || {}, {

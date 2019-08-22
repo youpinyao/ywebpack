@@ -10,30 +10,36 @@ const path = require('path');
 const clearConsole = require('react-dev-utils/clearConsole');
 
 let baseConfig = require('./config');
+
 const configs = {
+  // eslint-disable-next-line
   build: require('./production'),
+  // eslint-disable-next-line
   start: require('./development'),
+  // eslint-disable-next-line
   watch: require('./development'),
+  // eslint-disable-next-line
   dll: require('./dll'),
 };
 
 commander
   .version(require('../package.json').version)
-  .option('--init, init', 'init a config file', function () {
+  .option('--init, init', 'init a config file', () => {
     init();
   })
-  .option('--start, start [configPath]', 'start a dev server', function (path) {
-    run('start', path);
+  .option('--start, start [configPath]', 'start a dev server', (p) => {
+    run('start', p);
   })
-  .option('--watch, watch [configPath]', 'watch a dev server', function (path) {
-    run('watch', path);
+  .option('--watch, watch [configPath]', 'watch a dev server', (p) => {
+    run('watch', p);
   })
-  .option('--dll, dll [configPath]', 'build dll', function (path) {
-    run('dll', path);
+  .option('--dll, dll [configPath]', 'build dll', (p) => {
+    run('dll', p);
   })
-  .option('--build, build [configPath]', 'build project', function (path) {
-    run('build', path);
-  }).parse(process.argv);
+  .option('--build, build [configPath]', 'build project', (p) => {
+    run('build', p);
+  })
+  .parse(process.argv);
 
 // 默认输入帮助
 if (!process.argv.slice(2).length) {
@@ -42,7 +48,10 @@ if (!process.argv.slice(2).length) {
 
 function init() {
   // 复制文件
-  fs.copyFileSync(path.resolve(__dirname, './template/ywebpack.config.js'), path.resolve(process.cwd(), './ywebpack.config.js'));
+  fs.copyFileSync(
+    path.resolve(__dirname, './template/ywebpack.config.js'),
+    path.resolve(process.cwd(), './ywebpack.config.js'),
+  );
 
   const jsonPath = path.resolve(process.cwd(), './package.json');
 
@@ -51,9 +60,11 @@ function init() {
     return;
   }
 
-  const json = JSON.parse(fs.readFileSync(jsonPath, {
-    encoding: 'utf-8',
-  }).toString());
+  const json = JSON.parse(fs
+    .readFileSync(jsonPath, {
+      encoding: 'utf-8',
+    })
+    .toString());
 
   json.scripts.start = 'ywebpack start ./ywebpack.config.js';
   json.scripts.watch = 'ywebpack watch ./ywebpack.config.js';
@@ -67,8 +78,8 @@ function init() {
 }
 
 function run(type, configPath) {
-
   if (configPath && fs.existsSync(path.resolve(process.cwd(), configPath))) {
+    // eslint-disable-next-line
     baseConfig = Object.assign(baseConfig, require(path.resolve(process.cwd(), configPath)));
   }
 
@@ -85,27 +96,29 @@ function run(type, configPath) {
     }
   }
 
-  let webpackConfig = configs[type];
+  const webpackConfig = configs[type];
 
   switch (type) {
     case 'dll':
-      if (!baseConfig.vendors && !baseConfig.vendor) {
-        console.log(chalk.red('please config vendor or vendors'));
-        return;
-      }
-      del.sync([path.resolve(process.cwd(), '.dll')], {
-        force: true
-      });
-      webpack(webpackConfig(baseConfig)).run((err, stats) => {
-        if (runCallback(err, stats)) {
-          console.log(chalk.green('\r\ndll complete \r\n'));
+      {
+        const dllConfig = webpackConfig(baseConfig, true);
+
+        if (dllConfig) {
+          del.sync([path.resolve(process.cwd(), '.dll')], {
+            force: true,
+          });
+          webpack(dllConfig).run((err, stats) => {
+            if (runCallback(err, stats)) {
+              console.log(chalk.green('\r\ndll complete \r\n'));
+            }
+          });
         }
-      });
+      }
 
       break;
     case 'build':
       del.sync([path.resolve(process.cwd(), baseConfig.path)], {
-        force: true
+        force: true,
       });
       webpack(webpackConfig(baseConfig)).run((err, stats) => {
         if (runCallback(err, stats)) {
@@ -120,14 +133,10 @@ function run(type, configPath) {
     case 'watch':
     case 'start':
       {
-        del.sync([path.resolve(process.cwd(), '.dll')], {
-          force: true
-        });
+        const dllConfig = configs.dll(baseConfig);
 
-        if (!baseConfig.vendors && !baseConfig.vendor) {
-          runDev(webpackConfig, type);
-        } else {
-          const dllCompiler = webpack(configs.dll(baseConfig));
+        if (dllConfig) {
+          const dllCompiler = webpack(dllConfig);
 
           dllCompiler.run((err, stats) => {
             if (runCallback(err, stats)) {
@@ -135,6 +144,8 @@ function run(type, configPath) {
               runDev(webpackConfig, type);
             }
           });
+        } else {
+          runDev(webpackConfig, type);
         }
       }
       break;
@@ -150,7 +161,7 @@ function runDev(webpackConfig, type) {
   // 这段不能加。。。
   // compiler.run(runCallback);
 
-  compiler.hooks.invalid.tap('SyncHook', function () {
+  compiler.hooks.invalid.tap('SyncHook', () => {
     // clearConsole();
     cDate = +new Date();
     console.log(chalk.yellow('Compiling'));
@@ -158,24 +169,26 @@ function runDev(webpackConfig, type) {
 
   // "done" event fires when Webpack has finished recompiling the bundle.
   // Whether or not you have warnings or errors, you will get this event.
-  compiler.hooks.done.tap('SyncHook', function (stats) {
+  compiler.hooks.done.tap('SyncHook', (stats) => {
     // clearConsole();
     const ncDate = +new Date();
 
-    console.log(chalk.green(`-----------------------------`));
+    console.log(chalk.green('-----------------------------'));
     console.log();
   });
   if (type === 'start') {
     const devServer = new WebpackDevServer(compiler, config.devServer);
 
-    devServer.listen(config.devServer.port, config.devServer.host, function (serr) {
+    devServer.listen(config.devServer.port, config.devServer.host, (serr) => {
       if (serr) {
         console.log(chalk.red(serr));
         return;
       }
       // clearConsole();
       console.log(chalk.cyan('\r\n\r\nStarting the development server...\r\n'));
-      console.log(chalk.green(`${config.devServer.https ? 'https' : 'http'}://${config.devServer.host}:${config.devServer.port}${config.output.publicPath}`));
+      console.log(chalk.green(`${config.devServer.https ? 'https' : 'http'}://${config.devServer.host}:${
+        config.devServer.port
+      }${config.output.publicPath}`));
       console.log();
 
       if (baseConfig.afterStart) {
@@ -183,19 +196,20 @@ function runDev(webpackConfig, type) {
       }
     });
   } else {
-    compiler.watch({
-      aggregateTimeout: 300
-    }, (err, stats) => {
-      // if (runCallback(err, stats)) {
-      //   console.log(chalk.green('[webpack]: build done!\r\n'));
-      // }
-    });
+    compiler.watch(
+      {
+        aggregateTimeout: 300,
+      },
+      (err, stats) => {
+        // if (runCallback(err, stats)) {
+        //   console.log(chalk.green('[webpack]: build done!\r\n'));
+        // }
+      },
+    );
   }
 }
 
-
 function runCallback(err, stats) {
-
   if (err) {
     console.log(chalk.red(err.stack || err));
     if (err.details) {

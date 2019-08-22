@@ -5,13 +5,14 @@ const plugins = require('./plugins');
 const entry = require('./entry');
 const modules = require('./modules');
 
-module.exports = function (config) {
+module.exports = (config) => {
   let hash = config.env === 'development' ? '.[hash]' : '.[contenthash]';
 
   if (config.hash === false) {
     hash = '';
   }
   if (typeof config.hash === 'string') {
+    // eslint-disable-next-line
     hash = config.hash;
   }
 
@@ -23,11 +24,11 @@ module.exports = function (config) {
       filename: `[name]${hash}.js`,
       publicPath: config.publicPath,
       path: path.resolve(process.cwd(), config.path),
-      sourceMapFilename: `[name]${hash}.map`
+      sourceMapFilename: `[name]${hash}.map`,
     },
     resolve: {
       extensions: ['.ts', '.js', '.json', '.jsx'],
-      modules: ['node_modules']
+      modules: ['node_modules'],
     },
     module: modules(config),
     plugins: plugins(config),

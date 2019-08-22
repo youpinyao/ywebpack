@@ -14,6 +14,7 @@ module.exports = (config) => {
     hash = '';
   }
   if (typeof config.hash === 'string') {
+    // eslint-disable-next-line
     hash = config.hash;
   }
 

@@ -5,7 +5,7 @@ module.exports = (config) => {
   const entry = {};
   const isDev = config.env === 'development';
 
-  config.entrys.forEach(v => {
+  config.entrys.forEach((v) => {
     const jsName = v.name || name(v.entry);
 
     entry[jsName] = [path.resolve(process.cwd(), v.entry)];
@@ -19,4 +19,4 @@ module.exports = (config) => {
   });
 
   return entry;
-}
+};

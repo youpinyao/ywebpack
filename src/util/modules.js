@@ -7,7 +7,7 @@ const babel = require('./rules/babel');
 const assets = require('./rules/assets');
 const isWindow = require('./isWindow');
 
-module.exports = function (config) {
+module.exports = (config) => {
   const modules = {
     rules: [
       html(config),
@@ -17,21 +17,23 @@ module.exports = function (config) {
       babel(config),
       eslint(config),
       assets(config),
-    ]
+    ],
   };
 
   // 如果某些的特定的依赖需要同项目一样构建
   if (config.buildInclude) {
-    let buildInclude = config.buildInclude;
+    let { buildInclude } = config;
     if (typeof buildInclude === 'string') {
-      buildInclude = [{
-        include: buildInclude,
-      }];
+      buildInclude = [
+        {
+          include: buildInclude,
+        },
+      ];
     }
 
-    buildInclude.forEach(item => {
-      let include = item.include;
-      let cssModules = item.cssModules;
+    buildInclude.forEach((item) => {
+      let { include } = item;
+      const { cssModules } = item;
 
       if (isWindow) {
         include = include.replace(/\//g, '\\\\');

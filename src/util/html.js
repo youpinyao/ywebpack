@@ -6,10 +6,9 @@ module.exports = (config) => {
   const plugins = [];
   const isDev = config.env === 'development';
   const htmlPluginOptions = config.htmlPluginOptions || {};
-  const entrys = config.entrys;
+  const { entrys } = config;
 
-  entrys.forEach(v => {
-
+  entrys.forEach((v) => {
     const htmlName = name(v.template);
     const jsName = v.name || name(v.entry);
     const chunks = [jsName];
@@ -32,4 +31,4 @@ module.exports = (config) => {
   });
 
   return plugins;
-}
+};

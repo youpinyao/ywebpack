@@ -26,7 +26,13 @@ module.exports = (config) => {
     dllHash = null;
   }
 
-  if (dllHash.length) {
+  if (
+    dllHash.length &&
+    config.vendor !== true &&
+    config.vendors !== true &&
+    config.vendor !== false &&
+    config.vendors !== false
+  ) {
     const dllCssPath = path.resolve(process.cwd(), `.dll/vendor.dll.${dllHash}.css`);
     const dllJsPath = path.resolve(process.cwd(), `.dll/vendor.dll.${dllHash}.js`);
     const assets = [];

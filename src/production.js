@@ -53,7 +53,37 @@ module.exports = (config) => {
     dllHash = null;
   }
 
-  if (dllHash.length) {
+  if (config.vendors === true || config.vendor === true) {
+    // plugins.push( // 输出公共模块
+    //   new webpack.optimize.CommonsChunkPlugin({
+    //     name: ['vendor'],
+    //     minChunks(module) {
+    //       // this assumes your vendor imports exist in the node_modules directory
+    //       return module.context && module.context.indexOf('node_modules') !== -1;
+    //     }
+    //   }));
+    optimization.splitChunks = {
+      // all, async, and initial
+      chunks: 'all',
+      minSize: 30000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: '~',
+      name: 'vendor',
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
+    };
+  } else if (dllHash.length && config.vendors !== false && config.vendor !== false) {
     const dllCssPath = path.resolve(process.cwd(), `.dll/vendor.dll.${dllHash}.css`);
     const dllJsPath = path.resolve(process.cwd(), `.dll/vendor.dll.${dllHash}.js`);
     const assets = [];
@@ -76,38 +106,6 @@ module.exports = (config) => {
       hash: true,
     }))));
   }
-
-  // if (config.vendors !== false && config.vendor !== false) {
-  //   // plugins.push( // 输出公共模块
-  //   //   new webpack.optimize.CommonsChunkPlugin({
-  //   //     name: ['vendor'],
-  //   //     minChunks(module) {
-  //   //       // this assumes your vendor imports exist in the node_modules directory
-  //   //       return module.context && module.context.indexOf('node_modules') !== -1;
-  //   //     }
-  //   //   }));
-  //   optimization.splitChunks = {
-  //     // all, async, and initial
-  //     chunks: 'all',
-  //     minSize: 30000,
-  //     minChunks: 1,
-  //     maxAsyncRequests: 5,
-  //     maxInitialRequests: 3,
-  //     automaticNameDelimiter: '~',
-  //     name: 'vendor',
-  //     cacheGroups: {
-  //       vendors: {
-  //         test: /[\\/]node_modules[\\/]/,
-  //         priority: -10,
-  //       },
-  //       default: {
-  //         minChunks: 2,
-  //         priority: -20,
-  //         reuseExistingChunk: true,
-  //       },
-  //     },
-  //   };
-  // }
 
   return webpackMerge(baseConfig(config), config.webpackMerge || {}, {
     plugins,

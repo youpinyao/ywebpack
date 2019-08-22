@@ -51,7 +51,7 @@ module.exports = (config, force = false) => {
     vendors = [vendors];
   }
 
-  if (vendors) {
+  if (vendors && vendors !== true) {
     vendors = vendors.map((vendor) => {
       let newVendor = '';
 
@@ -65,6 +65,9 @@ module.exports = (config, force = false) => {
 
       return newVendor;
     });
+  } else if (vendors === true || vendors === false) {
+    console.log(chalk.yellow('vendors is boolean, just run in production'));
+    return false;
   } else {
     console.log(chalk.red('please config vendors'));
     return false;

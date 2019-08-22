@@ -58,7 +58,7 @@ module.exports = {
 ```node
 config
 
-swOption: true,
+swOptions: true,
 
 add to html head
 <script>

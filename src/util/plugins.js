@@ -32,7 +32,13 @@ module.exports = (config) => {
   ].concat(html(config));
 
   if (config.swOptions) {
-    plugins.push(new WorkboxPlugin.GenerateSW(config.swOptions === true ? {} : config.swOptions));
+    const defaultSwOptions = {
+      exclude: [/\.html$/],
+    };
+    plugins.push(new WorkboxPlugin.GenerateSW({
+      ...defaultSwOptions,
+      ...(config.swOptions === true ? {} : config.swOptions),
+    }));
   }
 
   if (config.env === 'production') {

@@ -1,4 +1,6 @@
 const webpack = require('webpack');
+const path = require('path');
+const fs = require('fs');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -6,6 +8,22 @@ const WebpackChunkHash = require('webpack-chunk-hash');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const html = require('./html');
+
+const workboxVersion = require('workbox-webpack-plugin/package.json').version;
+
+const serviceWorkerPath = path.resolve(process.cwd(), 'service-worker.js');
+
+if (!fs.existsSync(serviceWorkerPath)) {
+  fs.writeFileSync(
+    serviceWorkerPath,
+    fs
+      .readFileSync(path.resolve(__dirname, '../template/service-worker.js'))
+      .toString()
+      .replace(/{{version}}/g, workboxVersion),
+  );
+} else if (fs.readFileSync(serviceWorkerPath).toString().indexOf(`@${workboxVersion}`) === -1) {
+  throw new Error('please delete service-worker.js in the process cwd path and restart ywebpack');
+}
 
 module.exports = (config) => {
   let hash = config.env === 'development' ? '.[hash]' : '.[contenthash]';
@@ -33,9 +51,18 @@ module.exports = (config) => {
 
   if (config.swOptions) {
     const defaultSwOptions = {
+      swSrc: serviceWorkerPath,
+      swDest: 'service-worker.js',
+      importWorkboxFrom: 'disabled',
       exclude: [/\.html$/],
     };
-    plugins.push(new WorkboxPlugin.GenerateSW({
+
+    // plugins.push(new WorkboxPlugin.GenerateSW({
+    //   ...defaultSwOptions,
+    //   ...(config.swOptions === true ? {} : config.swOptions),
+    // }));
+
+    plugins.push(new WorkboxPlugin.InjectManifest({
       ...defaultSwOptions,
       ...(config.swOptions === true ? {} : config.swOptions),
     }));

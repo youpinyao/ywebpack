@@ -117,7 +117,6 @@ function run(type, configPath) {
       {
         const dllConfig = configs.dll(baseConfig);
 
-
         del.sync([path.resolve(process.cwd(), baseConfig.path)], {
           force: true,
         });

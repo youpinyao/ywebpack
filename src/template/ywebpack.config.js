@@ -18,7 +18,7 @@ module.exports = {
   htmlOptions: undefined, // loader
   urlOptions: undefined, // loader
   htmlPluginOptions: undefined, // html-webpack-plugin
-  swOptions: undefined, // service worker
+  swOptions: undefined, // workbox InjectManifest config or boolean
   extraBabelPresets: [],
   extraBabelPlugins: [],
   webpackMerge: {},

@@ -6,4 +6,4 @@ node_modules
 .gitignore
 dist
 .npmignore
-service-worker.js
+./service-worker.js

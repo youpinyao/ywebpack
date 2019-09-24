@@ -5,6 +5,7 @@ const less = require('./rules/less');
 const eslint = require('./rules/eslint');
 const babel = require('./rules/babel');
 const assets = require('./rules/assets');
+const ts = require('./rules/ts');
 const isWindow = require('./isWindow');
 
 module.exports = (config) => {
@@ -17,6 +18,7 @@ module.exports = (config) => {
       babel(config),
       eslint(config),
       assets(config),
+      ts(config),
     ],
   };
 
@@ -48,6 +50,7 @@ module.exports = (config) => {
       modules.rules.push(babel(config, include));
       modules.rules.push(eslint(config, include));
       modules.rules.push(assets(config, include));
+      modules.rules.push(ts(config, include));
     });
   }
 

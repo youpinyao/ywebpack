@@ -8,7 +8,7 @@ module.exports = {
   entrys: [{
     template: 'test/index.html',
     filename: 'index.html',
-    entry: 'test/index.js',
+    entry: 'test/index.ts',
   }, {
     template: 'test/app.html',
     filename: 'app.html',

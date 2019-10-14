@@ -84,6 +84,6 @@
     "jquery": "^3.4.1",
     "moment": "^2.22.2",
     "nodemon": "^1.17.5",
-    "zhitu-loader": "0.0.3"
+    "zhitu-loader": "0.0.7"
   }
 }

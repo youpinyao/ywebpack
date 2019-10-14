@@ -1,6 +1,6 @@
 {
   "name": "ywebpack",
-  "version": "1.0.29",
+  "version": "1.0.30",
   "description": "webpack",
   "main": "src/index.js",
   "scripts": {
@@ -83,6 +83,7 @@
     "eslint-plugin-react": "7.4.0",
     "jquery": "^3.4.1",
     "moment": "^2.22.2",
-    "nodemon": "^1.17.5"
+    "nodemon": "^1.17.5",
+    "zhitu-loader": "0.0.3"
   }
 }

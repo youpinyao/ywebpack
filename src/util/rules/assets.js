@@ -9,7 +9,7 @@ module.exports = (config, include) => {
         options: Object.assign(
           {
             name: '[name].[hash].[ext]',
-            limit: 10000,
+            limit: 1024 * 3,
           },
           config.urlOptions,
         ),

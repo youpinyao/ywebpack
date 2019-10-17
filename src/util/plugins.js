@@ -45,7 +45,9 @@ module.exports = (config) => {
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.HashedModuleIdsPlugin(),
     new WebpackChunkHash(),
-    new ProgressBarPlugin(),
+    new ProgressBarPlugin({
+      clear: false,
+    }),
     new webpack.NamedModulesPlugin(),
   ].concat(html(config));
 

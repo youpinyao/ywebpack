@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
+const chalk = require('chalk');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -46,7 +47,8 @@ module.exports = (config) => {
     new webpack.HashedModuleIdsPlugin(),
     new WebpackChunkHash(),
     new ProgressBarPlugin({
-      clear: false,
+      format: `build [:bar] ${chalk.green.bold(':percent')} (:elapsed seconds) \r\n`,
+      clear: true,
     }),
     new webpack.NamedModulesPlugin(),
   ].concat(html(config));

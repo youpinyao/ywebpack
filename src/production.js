@@ -5,10 +5,11 @@ const path = require('path');
 const fs = require('fs');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const baseConfig = require('./util/base');
+const dllConfig = require('./dll');
 
 module.exports = (config) => {
   const optimization = {};
-  let dllHash = path.resolve(process.cwd(), '.dll/.hash');
+  let dllHash = path.resolve(process.cwd(), `.dll/${dllConfig.getDllHash(config)}.hash`);
 
   const plugins = [
     new webpack.LoaderOptionsPlugin({

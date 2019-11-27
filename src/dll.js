@@ -35,12 +35,38 @@ const plugins = (hash) => {
     }),
   ];
 };
-module.exports = (config, force = false) => {
-  const baseConfig = base(config);
-  const name = 'vendor';
-  const outputPath = path.resolve(process.cwd(), '.dll');
-  let hash = [];
 
+function getDllHash(config) {
+  let hash = [];
+  let { vendors } = config;
+
+  if (config.vendor) {
+    vendors = config.vendor;
+  }
+
+  if (typeof vendors === 'string') {
+    vendors = [vendors];
+  }
+
+  (vendors || []).forEach((vendor) => {
+    let newVendor = '';
+    try {
+      newVendor = require.resolve(vendor);
+      hash.push(hasha.fromFileSync(newVendor, { algorithm: 'md5' }));
+    } catch (e) {
+      newVendor = path.resolve(process.cwd(), vendor);
+      hash.push(hasha.fromFileSync(newVendor, { algorithm: 'md5' }));
+    }
+
+    return newVendor;
+  });
+
+  hash = hasha(hash.join(','), { algorithm: 'md5' });
+
+  return hash;
+}
+
+function getVendors(config) {
   let { vendors } = config;
 
   if (config.vendor) {
@@ -57,10 +83,8 @@ module.exports = (config, force = false) => {
 
       try {
         newVendor = require.resolve(vendor);
-        hash.push(hasha.fromFileSync(newVendor, { algorithm: 'md5' }));
       } catch (e) {
         newVendor = path.resolve(process.cwd(), vendor);
-        hash.push(hasha.fromFileSync(newVendor, { algorithm: 'md5' }));
       }
 
       return newVendor;
@@ -72,18 +96,29 @@ module.exports = (config, force = false) => {
     // console.log(chalk.red('please config vendors'));
     return false;
   }
+  return vendors;
+}
+
+module.exports = (config, force = false) => {
+  const baseConfig = base(config);
+  const name = 'vendor';
+  const outputPath = path.resolve(process.cwd(), '.dll');
+  const hash = getDllHash(config);
+  const vendors = getVendors(config);
+
+  if (!vendors) {
+    return false;
+  }
 
   delete baseConfig.entry;
   delete baseConfig.output;
   delete baseConfig.plugins;
 
-  hash = hasha(hash.join(','), { algorithm: 'md5' });
-
   if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath);
   }
 
-  fs.writeFileSync(path.resolve(outputPath, '.hash'), hash);
+  fs.writeFileSync(path.resolve(outputPath, `${hash}.hash`), hash);
 
   if (fs.existsSync(path.resolve(outputPath, `${name}.manifest.${hash}.json`)) && force === false) {
     return false;
@@ -117,3 +152,5 @@ module.exports = (config, force = false) => {
     config.webpackMerge || {},
   );
 };
+
+module.exports.getDllHash = getDllHash;

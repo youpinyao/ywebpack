@@ -3,7 +3,7 @@ module.exports = {
   host: 'localhost',
   publicPath: '/',
   path: 'dist',
-  vendors: ['jquery', 'moment'],
+  vendors: true,
   hash: true,
   entrys: [{
     template: 'test/index.html',

@@ -38,36 +38,29 @@ const plugins = (hash) => {
 
 function getDllHash(config) {
   let hash = [];
-  let { vendors } = config;
+  const vendors = getVendors(config);
 
-  if (config.vendor) {
-    vendors = config.vendor;
-  }
-
-  if (typeof vendors === 'string') {
-    vendors = [vendors];
+  if (!vendors) {
+    return '';
   }
 
   (vendors || []).forEach((vendor) => {
-    let newVendor = '';
-    try {
-      newVendor = require.resolve(vendor);
-      hash.push(hasha.fromFileSync(newVendor, { algorithm: 'md5' }));
-    } catch (e) {
-      newVendor = path.resolve(process.cwd(), vendor);
-      hash.push(hasha.fromFileSync(newVendor, { algorithm: 'md5' }));
-    }
-
-    return newVendor;
+    hash.push(hasha.fromFileSync(vendor, {
+      algorithm: 'md5',
+    }));
   });
 
-  hash = hasha(hash.join(','), { algorithm: 'md5' });
+  hash = hasha(hash.join(','), {
+    algorithm: 'md5',
+  });
 
   return hash;
 }
 
 function getVendors(config) {
-  let { vendors } = config;
+  let {
+    vendors,
+  } = config;
 
   if (config.vendor) {
     vendors = config.vendor;
@@ -130,8 +123,7 @@ module.exports = (config, force = false) => {
   }
 
   return webpackMerge(
-    baseConfig,
-    {
+    baseConfig, {
       mode: 'production',
       entry: {
         [name]: vendors,

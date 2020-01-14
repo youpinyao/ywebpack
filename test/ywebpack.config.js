@@ -14,6 +14,7 @@ module.exports = {
     filename: 'app.html',
     entry: 'test/app.js',
   }],
+  folder: undefined,
   cssOptions: undefined,
   lessOptions: undefined,
   sassOptions: undefined,

@@ -32,6 +32,7 @@ module.exports = {
       entry: 'app/index.js',
     },
   ],
+  folder: false, // 是否把构建后的目录整理成  css, images, js, html
   cssOptions: undefined, // loader
   lessOptions: undefined, // loader
   sassOptions: undefined, // loader

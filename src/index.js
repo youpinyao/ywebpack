@@ -7,6 +7,7 @@ const WebpackDevServer = require('webpack-dev-server');
 const chalk = require('chalk');
 const del = require('delete');
 const path = require('path');
+const buildFolder = require('./folder');
 const clearConsole = require('react-dev-utils/clearConsole');
 
 let baseConfig = require('./config');
@@ -164,6 +165,9 @@ function runBuild(webpackConfig) {
     if (runCallback(err, stats)) {
       console.log(chalk.green('\r\nbuild complete \r\n'));
       if (baseConfig.afterBuild) {
+        if (baseConfig.folder === true) {
+          buildFolder(baseConfig);
+        }
         baseConfig.afterBuild(baseConfig);
       }
     }

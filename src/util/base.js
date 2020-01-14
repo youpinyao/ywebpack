@@ -22,7 +22,7 @@ module.exports = (config) => {
     entry: entry(config),
     output: {
       filename: `[name]${hash}.js`,
-      publicPath: config.publicPath,
+      publicPath: config.folder === true ? path.join(config.publicPath, 'folder_assets/') : config.publicPath,
       path: path.resolve(process.cwd(), config.path),
       sourceMapFilename: `[name]${hash}.map`,
     },

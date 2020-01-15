@@ -8,7 +8,7 @@ module.exports = (config, include) => {
         loader: 'url-loader',
         options: Object.assign(
           {
-            name: config.hash === false ? '[name].[ext]' : '[name].[hash].[ext]',
+            name: config.hash === false && config.hashImage !== true ? '[name].[ext]' : '[name].[hash].[ext]',
             limit: 1024 * 3,
           },
           config.urlOptions,

@@ -45,6 +45,7 @@ module.exports = (config, type, modules) => {
               'not ie < 8', // doesn't support IE8 anyway
             ],
           }),
+          ...config.postcssPlugins || [],
         ];
       },
     },

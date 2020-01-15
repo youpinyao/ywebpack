@@ -40,6 +40,7 @@ module.exports = {
   urlOptions: undefined, // loader
   htmlPluginOptions: undefined, // html-webpack-plugin
   swOptions: undefined, // workbox InjectManifest config or boolean
+  postcssPlugins: [],
   extraBabelPresets: [],
   extraBabelPlugins: [],
   webpackMerge: {},

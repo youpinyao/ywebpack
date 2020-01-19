@@ -32,18 +32,19 @@ function folder(config) {
 
   function doReplacePath(item) {
     let str = fs.readFileSync(item).toString();
+    const prefix = isHtml(item) ? './' : '../';
 
     files.forEach((file) => {
       const filePath = path.join(replacePath, file);
 
-      if (isJs(filePath)) {
-        str = str.replace(new RegExp(filePath), path.join('./js/', file));
-      } else if (isCss(filePath)) {
-        str = str.replace(new RegExp(filePath), path.join('./css/', file));
-      } else if (isImage(filePath)) {
-        str = str.replace(new RegExp(filePath), path.join('./images/', file));
-      } else if (isHtml(filePath)) {
-        str = str.replace(new RegExp(filePath), path.join('./', file));
+      if (isJs(file)) {
+        str = str.replace(new RegExp(filePath, 'g'), path.join(prefix, 'js/', file));
+      } else if (isCss(file)) {
+        str = str.replace(new RegExp(filePath, 'g'), path.join(prefix, 'css/', file));
+      } else if (isImage(file)) {
+        str = str.replace(new RegExp(filePath, 'g'), path.join(prefix, 'images/', file));
+      } else if (isHtml(file)) {
+        str = str.replace(new RegExp(filePath, 'g'), path.join(prefix, '', file));
       }
     });
 

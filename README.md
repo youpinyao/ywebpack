@@ -43,7 +43,7 @@ module.exports = {
   postcssPlugins: [],
   extraBabelPresets: [],
   extraBabelPlugins: [],
-  babelPresetsEnvConfig: {},
+  babelPresetsEnvConfig: {}, // https://babeljs.io/docs/en/babel-preset-env
   webpackMerge: {},
   afterBuild() {
     console.log('afterBuild');

@@ -22,6 +22,7 @@ module.exports = {
   urlOptions: undefined,
   extraBabelPresets: [],
   extraBabelPlugins: [],
+  babelPresetsEnvConfig: {},
   swOptions: true,
   webpackMerge: {
     // resolveLoader: {

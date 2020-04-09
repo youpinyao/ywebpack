@@ -22,6 +22,7 @@ module.exports = {
   swOptions: undefined, // workbox InjectManifest config or boolean
   extraBabelPresets: [],
   extraBabelPlugins: [],
+  babelPresetsEnvConfig: {},
   postcssPlugins: [],
   webpackMerge: {},
   afterBuild() {

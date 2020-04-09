@@ -8,7 +8,8 @@ module.exports = (config, include) => {
         loader: 'babel-loader',
         options: {
           cacheDirectory: true,
-          presets: ['env', 'react', 'stage-0'],
+          presets: [
+            ['env', config.babelPresetsEnvConfig || {}], 'react', 'stage-0'],
           plugins: [
             'syntax-dynamic-import',
             'add-module-exports',

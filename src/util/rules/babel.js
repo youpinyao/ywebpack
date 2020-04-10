@@ -17,6 +17,7 @@ module.exports = (config, include) => {
             '@babel/transform-async-to-generator',
             '@babel/syntax-jsx',
             '@babel/transform-runtime',
+            '@babel/plugin-transform-modules-commonjs',
 
             // Stage 0
             '@babel/plugin-proposal-function-bind',

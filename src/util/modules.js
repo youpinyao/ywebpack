@@ -49,7 +49,7 @@ module.exports = (config) => {
       modules.rules.push(html(config, include));
       modules.rules.push(css(config, include, cssModules));
       if (config.sassOptions) {
-        modules.rules.push(sass(config, include, cssModules))
+        modules.rules.push(sass(config, include, cssModules));
       }
       modules.rules.push(less(config, include, cssModules));
       modules.rules.push(babel(config, include));
@@ -61,8 +61,8 @@ module.exports = (config) => {
 
   if (config.env === 'development') {
     // 如果是调试，对调试依赖也进行babel
-    // const reg = new RegExp(isWindow ? '(\\\\webpack)' : '(/webpack)');
-    // modules.rules.push(babel(config, reg));
+    const reg = new RegExp(isWindow ? '(\\\\webpack)' : '(/webpack)');
+    modules.rules.push(babel(config, reg));
   }
 
   return modules;

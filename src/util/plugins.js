@@ -14,18 +14,6 @@ const workboxVersion = require('workbox-webpack-plugin/package.json').version;
 
 const serviceWorkerPath = path.resolve(process.cwd(), 'service-worker.js');
 
-if (!fs.existsSync(serviceWorkerPath)) {
-  fs.writeFileSync(
-    serviceWorkerPath,
-    fs
-      .readFileSync(path.resolve(__dirname, '../template/service-worker.js'))
-      .toString()
-      .replace(/{{version}}/g, workboxVersion),
-  );
-} else if (fs.readFileSync(serviceWorkerPath).toString().indexOf(`@${workboxVersion}`) === -1) {
-  throw new Error('please delete service-worker.js in the process cwd path and restart ywebpack');
-}
-
 module.exports = (config) => {
   let hash = config.env === 'development' ? '.[hash]' : '.[contenthash]';
 
@@ -54,6 +42,17 @@ module.exports = (config) => {
   ].concat(html(config));
 
   if (config.swOptions) {
+    if (!fs.existsSync(serviceWorkerPath)) {
+      fs.writeFileSync(
+        serviceWorkerPath,
+        fs
+          .readFileSync(path.resolve(__dirname, '../template/service-worker.js'))
+          .toString()
+          .replace(/{{version}}/g, workboxVersion),
+      );
+    } else if (fs.readFileSync(serviceWorkerPath).toString().indexOf(`@${workboxVersion}`) === -1) {
+      throw new Error('please delete service-worker.js in the process cwd path and restart ywebpack');
+    }
     const defaultSwOptions = {
       swSrc: serviceWorkerPath,
       swDest: 'service-worker.js',

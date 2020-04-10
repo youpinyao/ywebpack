@@ -51,7 +51,9 @@ module.exports = {
   // 对应环境独立的配置
   development: {},
   // 对应环境独立的配置
-  production: {},
+  production: {
+    publicPath: './',
+  },
   // 如果某些的特定的依赖需要同项目一样构建，正则表达式
   // buildInclude: undefined,
 

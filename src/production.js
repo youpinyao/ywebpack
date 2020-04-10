@@ -1,5 +1,4 @@
 const webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpackMerge = require('webpack-merge');
 const path = require('path');
 const fs = require('fs');
@@ -8,44 +7,13 @@ const baseConfig = require('./util/base');
 const dllConfig = require('./dll');
 
 module.exports = (config) => {
-  const optimization = {};
+  const optimization = {
+    minimize: false,
+  };
   let dllHash = path.resolve(process.cwd(), `.dll/${dllConfig.getDllHash(config)}.hash`);
 
   const plugins = [
-    new webpack.LoaderOptionsPlugin({
-      minimize: false,
-      debug: false,
-    }),
-    // don't need in webpack4
-    // new webpack.DefinePlugin({
-    //   'process.env': {
-    //     NODE_ENV: JSON.stringify('production')
-    //   }
-    // }),
 
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        ecma: 8,
-        warnings: false,
-        compress: {
-          warnings: false,
-          drop_debugger: true,
-          // drop_console: true,
-          pure_funcs: ['console.log'],
-        },
-        mangle: true,
-        output: {
-          comments: false,
-          beautify: false,
-        },
-        toplevel: false,
-        nameCache: null,
-        ie8: false,
-        keep_classnames: undefined,
-        keep_fnames: false,
-        safari10: false,
-      },
-    }),
   ];
 
   if (fs.existsSync(dllHash)) {
@@ -55,14 +23,6 @@ module.exports = (config) => {
   }
 
   if (config.vendors === true || config.vendor === true) {
-    // plugins.push( // 输出公共模块
-    //   new webpack.optimize.CommonsChunkPlugin({
-    //     name: ['vendor'],
-    //     minChunks(module) {
-    //       // this assumes your vendor imports exist in the node_modules directory
-    //       return module.context && module.context.indexOf('node_modules') !== -1;
-    //     }
-    //   }));
     optimization.splitChunks = {
       // all, async, and initial
       chunks: 'all',
@@ -98,7 +58,7 @@ module.exports = (config) => {
     plugins.push(new webpack.DllReferencePlugin({
       context: path.resolve(process.cwd()),
       // eslint-disable-next-line
-        manifest: require(path.resolve(process.cwd(), `.dll/vendor.manifest.${dllHash}.json`)),
+      manifest: require(path.resolve(process.cwd(), `.dll/vendor.manifest.${dllHash}.json`)),
     }));
     plugins.push(new AddAssetHtmlPlugin(assets.map(filepath => ({
       filepath,

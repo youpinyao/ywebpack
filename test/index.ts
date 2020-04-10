@@ -1,10 +1,10 @@
 
-import $ from 'jquery';
+import * as $ from 'jquery';
 import * as moment from 'moment';
 import * as tpl from './tpl.html';
 import * as less from './index.less';
-import scss from './index.scss';
-import css from './index.css';
+// import scss from './index.scss';
+import * as css from './index.css';
 import tsImport from './tsImport';
 
 interface User {
@@ -19,7 +19,7 @@ console.log('tsImport', tsImport());
 
 console.log('moment', moment);
 console.log('less', JSON.stringify(less), less);
-console.log('scss', JSON.stringify(scss), scss);
+// console.log('scss', JSON.stringify(scss), scss);
 console.log('css', JSON.stringify(css), css);
 console.log('jquery', $);
 console.log('moment', moment);

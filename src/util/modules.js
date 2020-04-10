@@ -13,7 +13,6 @@ module.exports = (config) => {
     rules: [
       html(config),
       css(config),
-      sass(config),
       less(config),
       babel(config),
       eslint(config),
@@ -21,6 +20,10 @@ module.exports = (config) => {
       ts(config),
     ],
   };
+
+  if (config.sassOptions) {
+    modules.rules.push(sass(config));
+  }
 
   // 如果某些的特定的依赖需要同项目一样构建
   if (config.buildInclude) {
@@ -45,7 +48,9 @@ module.exports = (config) => {
 
       modules.rules.push(html(config, include));
       modules.rules.push(css(config, include, cssModules));
-      modules.rules.push(sass(config, include, cssModules));
+      if (config.sassOptions) {
+        modules.rules.push(sass(config, include, cssModules))
+      }
       modules.rules.push(less(config, include, cssModules));
       modules.rules.push(babel(config, include));
       modules.rules.push(eslint(config, include));
@@ -56,8 +61,8 @@ module.exports = (config) => {
 
   if (config.env === 'development') {
     // 如果是调试，对调试依赖也进行babel
-    const reg = new RegExp(isWindow ? '(\\\\webpack)' : '(/webpack)');
-    modules.rules.push(babel(config, reg));
+    // const reg = new RegExp(isWindow ? '(\\\\webpack)' : '(/webpack)');
+    // modules.rules.push(babel(config, reg));
   }
 
   return modules;

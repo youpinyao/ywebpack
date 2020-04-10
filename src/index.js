@@ -71,6 +71,17 @@ function init() {
   json.scripts.watch = 'ywebpack watch ./ywebpack.config.js';
   json.scripts.build = 'ywebpack build ./ywebpack.config.js';
 
+  if (!json.browserslist) {
+    json.browserslist = [
+      'iOS >= 8',
+      'Android >= 4.4',
+      'ie >= 9',
+      'Firefox >= 68',
+      'Chrome >= 77',
+      'last 2 QQAndroid version',
+    ];
+  }
+
   fs.writeFileSync(jsonPath, JSON.stringify(json, null, 2), {
     encoding: 'utf-8',
   });
@@ -209,7 +220,7 @@ function runDev(webpackConfig, type) {
       console.log(chalk.cyan('\r\n\r\nStarting the development server...\r\n'));
       console.log(chalk.green(`${config.devServer.https ? 'https' : 'http'}://${config.devServer.host}:${
         config.devServer.port
-      }${config.output.publicPath}`));
+        }${config.output.publicPath}`));
       console.log();
 
       if (baseConfig.afterStart) {

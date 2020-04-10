@@ -35,7 +35,7 @@ module.exports = {
   folder: false, // 是否把构建后的目录整理成  css, images, js, html
   cssOptions: undefined, // loader
   lessOptions: undefined, // loader
-  sassOptions: undefined, // loader
+  sassOptions: undefined, // loader 默认为关闭 自行安装node-sass sass-loader
   htmlOptions: undefined, // loader
   urlOptions: undefined, // loader
   htmlPluginOptions: undefined, // html-webpack-plugin

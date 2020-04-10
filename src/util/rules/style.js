@@ -12,10 +12,11 @@ module.exports = (config, type, modules) => {
       loader: 'css-loader',
       options: Object.assign(
         {
-          minimize: config.env !== 'development',
-          localIdentName: '[local]-[hash:base64:10]',
-          modules: true,
-          camelCase: true,
+          sourceMap: config.env === 'development',
+          modules: {
+            localIdentName: '[local]-[hash:base64:10]',
+          },
+          localsConvention: 'camelCase',
         },
         cssOptions,
       ),
@@ -26,7 +27,7 @@ module.exports = (config, type, modules) => {
     },
     sass: {
       loader: 'sass-loader',
-      options: config.sassOptions || undefined,
+      options: config.sassOptions && typeof config.sassOptions !== 'boolean' ? config.sassOptions : undefined,
     },
   };
 
@@ -37,14 +38,7 @@ module.exports = (config, type, modules) => {
       plugins() {
         return [
           // eslint-disable-next-line
-          require('autoprefixer')({
-            browsers: [
-              '>1%',
-              'last 4 versions',
-              'Firefox ESR',
-              'not ie < 8', // doesn't support IE8 anyway
-            ],
-          }),
+          require('autoprefixer')(),
           ...config.postcssPlugins || [],
         ];
       },

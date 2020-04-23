@@ -83,3 +83,11 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 ```
+
+## 注意事项
+
+```node
+值得一提的是，如果安装过程出现sass相关的安装错误，请在安装mirror-config-china后重试。
+
+$ npm install -g mirror-config-china
+```

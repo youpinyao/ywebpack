@@ -3,11 +3,8 @@ const webpackMerge = require('webpack-merge');
 const path = require('path');
 const fs = require('fs');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
-const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const baseConfig = require('./util/base');
 const dllConfig = require('./dll');
-
-const smp = new SpeedMeasurePlugin();
 
 module.exports = (config) => {
   const optimization = {
@@ -18,8 +15,6 @@ module.exports = (config) => {
   const plugins = [
 
   ];
-
-  const smpWrap = wp => (config.speedMeasure ? smp.wrap(wp) : wp);
 
   if (fs.existsSync(dllHash)) {
     dllHash = fs.readFileSync(dllHash);
@@ -49,7 +44,7 @@ module.exports = (config) => {
         },
       },
     };
-  } else if (dllHash && config.vendors !== false && config.vendor !== false) {
+  } else if (dllHash && typeof config.vendors !== 'boolean' && typeof config.vendor !== 'boolean') {
     const dllCssPath = path.resolve(process.cwd(), `.dll/vendor.dll.${dllHash}.css`);
     const dllJsPath = path.resolve(process.cwd(), `.dll/vendor.dll.${dllHash}.js`);
     const assets = [];
@@ -73,8 +68,8 @@ module.exports = (config) => {
     }))));
   }
 
-  return smpWrap(webpackMerge(baseConfig(config), config.webpackMerge || {}, {
+  return webpackMerge(baseConfig(config), config.webpackMerge || {}, {
     plugins,
     optimization,
-  }));
+  });
 };

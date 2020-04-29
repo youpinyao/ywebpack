@@ -29,10 +29,8 @@ module.exports = (config) => {
 
   if (
     dllHash &&
-    config.vendor !== true &&
-    config.vendors !== true &&
-    config.vendor !== false &&
-    config.vendors !== false
+    typeof config.vendor !== 'boolean' &&
+    typeof config.vendors !== 'boolean'
   ) {
     const dllCssPath = path.resolve(process.cwd(), `.dll/vendor.dll.${dllHash}.css`);
     const dllJsPath = path.resolve(process.cwd(), `.dll/vendor.dll.${dllHash}.js`);

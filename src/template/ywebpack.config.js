@@ -14,8 +14,6 @@ module.exports = {
   ],
   // 第三方分析插件
   bundleAnalyzer: false,
-  // 第三方分析插件
-  speedMeasure: false,
   folder: false, // 是否把构建后的目录整理成  css, images, js, html
   cssOptions: undefined, // loader
   lessOptions: undefined, // loader

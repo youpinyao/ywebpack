@@ -3,21 +3,15 @@ module.exports = {
   host: 'localhost',
   publicPath: '/',
   path: 'dist',
-  vendors: true,
+  vendors: ['jquery', 'moment'],
   hash: true,
   entrys: [{
-    template: 'test/index.html',
-    filename: 'index.html',
-    entry: 'test/index.ts',
-  }, {
     template: 'test/app.html',
     filename: 'app.html',
     entry: 'test/app.js',
   }],
   // 第三方分析插件
   bundleAnalyzer: false,
-  // 第三方分析插件
-  speedMeasure: true,
   folder: undefined,
   cssOptions: undefined,
   lessOptions: undefined,

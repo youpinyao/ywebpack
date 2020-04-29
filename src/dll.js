@@ -83,7 +83,7 @@ function getVendors(config) {
       return newVendor;
     });
   } else if (vendors === true || vendors === false) {
-    console.log(chalk.yellow('vendors is boolean, just run in production'));
+    // console.log(chalk.yellow('vendors is boolean, just run in production'));
     return false;
   } else {
     // console.log(chalk.red('please config vendors'));

@@ -14,6 +14,10 @@ module.exports = {
     filename: 'app.html',
     entry: 'test/app.js',
   }],
+  // 第三方分析插件
+  bundleAnalyzer: false,
+  // 第三方分析插件
+  speedMeasure: true,
   folder: undefined,
   cssOptions: undefined,
   lessOptions: undefined,

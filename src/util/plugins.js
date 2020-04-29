@@ -4,6 +4,7 @@ const fs = require('fs');
 const chalk = require('chalk');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const WebpackChunkHash = require('webpack-chunk-hash');
 const WorkboxPlugin = require('workbox-webpack-plugin');
@@ -76,6 +77,9 @@ module.exports = (config) => {
       filename: `[name]${hash}.css`,
       chunkFilename: `[name]${hash}.css`,
     }));
+  }
+  if (config.bundleAnalyzer) {
+    plugins.push(new BundleAnalyzerPlugin());
   }
 
   return plugins;

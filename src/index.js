@@ -174,7 +174,7 @@ function run(type, configPath) {
 function runBuild(webpackConfig) {
   webpack(webpackConfig(baseConfig)).run((err, stats) => {
     if (runCallback(err, stats)) {
-      console.log(chalk.green('\r\nbuild complete \r\n'));
+      // console.log(chalk.green('\r\nbuild complete \r\n'));
       if (baseConfig.afterBuild) {
         if (baseConfig.folder === true) {
           buildFolder(baseConfig);
@@ -218,9 +218,7 @@ function runDev(webpackConfig, type) {
       }
       // clearConsole();
       console.log(chalk.cyan('\r\n\r\nStarting the development server...\r\n'));
-      console.log(chalk.green(`${config.devServer.https ? 'https' : 'http'}://${config.devServer.host}:${
-        config.devServer.port
-        }${config.output.publicPath}`));
+      console.log(chalk.green(`${config.devServer.https ? 'https' : 'http'}://${config.devServer.host}:${config.devServer.port}${config.output.publicPath}`));
       console.log();
 
       if (baseConfig.afterStart) {

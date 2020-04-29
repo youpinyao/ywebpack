@@ -36,7 +36,8 @@ module.exports = (config) => {
     new webpack.HashedModuleIdsPlugin(),
     new WebpackChunkHash(),
     new ProgressBarPlugin({
-      format: `build [:bar] ${chalk.green.bold(':percent')} (:elapsed seconds) \r\n`,
+      // format: `build [:bar] ${chalk.green.bold(':percent')} (:elapsed seconds) \r\n`,
+      format: `build [:bar] ${chalk.green.bold(':percent')} (:elapsed seconds)`,
       clear: true,
     }),
     new webpack.NamedModulesPlugin(),

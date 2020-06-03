@@ -85,6 +85,6 @@ module.exports = (config) => {
       },
       plugins,
     },
-    webpackMerge({}, config.webpackMerge, config.webpackDevelopmentMerge),
+    webpackMerge({}, config.webpackMerge || {}, config.webpackDevelopmentMerge || {}),
   );
 };

@@ -1,4 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Sass = require('sass');
 
 module.exports = (config, type, modules) => {
   const cssOptions = Object.assign({}, config.cssOptions || {});
@@ -26,7 +27,10 @@ module.exports = (config, type, modules) => {
     },
     sass: {
       loader: 'sass-loader',
-      options: config.sassOptions || undefined,
+      options: {
+        implementation: Sass,
+        ...config.sassOptions || {},
+      },
     },
   };
 

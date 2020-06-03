@@ -71,5 +71,5 @@ module.exports = (config) => {
   return webpackMerge(baseConfig(config), {
     plugins,
     optimization,
-  }, config.webpackProductionMerge || config.webpackMerge || {}, config);
+  }, webpackMerge({}, config.webpackMerge, config.webpackProductionMerge), config);
 };

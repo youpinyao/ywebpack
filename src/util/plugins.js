@@ -27,10 +27,10 @@ module.exports = (config) => {
   }
 
   const plugins = [
-    new webpack.ProvidePlugin({
-      _: 'underscore',
-      Promise: 'promise',
-    }),
+    // new webpack.ProvidePlugin({
+    //   _: 'underscore',
+    //   Promise: 'promise',
+    // }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.HashedModuleIdsPlugin(),

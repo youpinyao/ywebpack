@@ -8,7 +8,7 @@ const dllConfig = require('./dll');
 
 module.exports = (config) => {
   const optimization = {
-    minimize: false,
+    minimize: true,
   };
   let dllHash = path.resolve(process.cwd(), `.dll/${dllConfig.getDllHash(config)}.hash`);
 

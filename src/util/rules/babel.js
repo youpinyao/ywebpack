@@ -13,10 +13,10 @@ module.exports = (config, include) => {
               ...config.babelPresetsEnvConfig || {},
             }], '@babel/react'],
           plugins: [
+            '@babel/transform-runtime',
             'syntax-async-functions',
             '@babel/transform-async-to-generator',
             '@babel/syntax-jsx',
-            '@babel/transform-runtime',
             '@babel/plugin-transform-modules-commonjs',
 
             // Stage 0

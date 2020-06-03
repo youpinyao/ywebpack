@@ -48,6 +48,10 @@ module.exports = {
   afterBuild() {
     console.log('afterBuild');
   },
+  // 对应环境独立webpack的配置
+  webpackDevelopmentMerge: {},
+  // 对应环境独立webpack的配置
+  webpackProductionMerge: {},
   // 对应环境独立的配置
   development: {},
   // 对应环境独立的配置

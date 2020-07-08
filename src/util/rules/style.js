@@ -1,5 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const Sass = require('sass');
+// const Sass = require('sass');
 
 module.exports = (config, type, modules) => {
   const cssOptions = Object.assign({}, config.cssOptions || {});
@@ -27,10 +27,12 @@ module.exports = (config, type, modules) => {
     },
     sass: {
       loader: 'sass-loader',
-      options: {
-        implementation: Sass,
-        ...config.sassOptions || {},
-      },
+      options: config.sassOptions || undefined,
+      // 用以下方式 vue 项目build后无法执行入口js
+      // options: {
+      //   implementation: Sass,
+      //   ...config.sassOptions || {},
+      // },
     },
   };
 

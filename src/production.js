@@ -3,12 +3,23 @@ const webpackMerge = require('webpack-merge');
 const path = require('path');
 const fs = require('fs');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const baseConfig = require('./util/base');
 const dllConfig = require('./dll');
 
 module.exports = (config) => {
   const optimization = {
     minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true, // Must be set to true if using source-maps in production
+        terserOptions: {
+          // https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+        },
+      }),
+    ],
   };
   let dllHash = path.resolve(process.cwd(), `.dll/${dllConfig.getDllHash(config)}.hash`);
 

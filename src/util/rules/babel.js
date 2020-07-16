@@ -1,6 +1,6 @@
 module.exports = (config, include) => {
   const babelConfig = {
-    test: /\.(js|jsx)$/,
+    test: /\.(ts|tsx|js|jsx)$/,
     exclude: include ? undefined : /(node_modules)/,
     include,
     use: [

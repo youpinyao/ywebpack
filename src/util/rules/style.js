@@ -1,4 +1,4 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (config, type, modules) => {
   const cssOptions = Object.assign({}, config.cssOptions || {});
@@ -10,12 +10,16 @@ module.exports = (config, type, modules) => {
   const types = {
     css: {
       loader: 'css-loader',
-      options: Object.assign({
-        minimize: config.env !== 'development',
-        localIdentName: '[local]-[hash:base64:10]',
-        modules: true,
-        camelCase: true,
-      }, cssOptions)
+      options: Object.assign(
+        {
+          sourceMap: config.env === 'development',
+          modules: {
+            localIdentName: '[local]-[hash:base64:10]',
+          },
+          localsConvention: 'camelCase',
+        },
+        cssOptions,
+      ),
     },
     less: {
       loader: 'less-loader',
@@ -23,7 +27,7 @@ module.exports = (config, type, modules) => {
     },
     sass: {
       loader: 'sass-loader',
-      options: config.sassOptions || undefined,
+      options: config.sassOptions && typeof config.sassOptions !== 'boolean' ? config.sassOptions : undefined,
     },
   };
 
@@ -33,17 +37,12 @@ module.exports = (config, type, modules) => {
       ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
       plugins() {
         return [
-          require('autoprefixer')({
-            browsers: [
-              '>1%',
-              'last 4 versions',
-              'Firefox ESR',
-              'not ie < 8', // doesn't support IE8 anyway
-            ]
-          })
+          // eslint-disable-next-line
+          require('autoprefixer')(),
+          ...config.postcssPlugins || [],
         ];
-      }
-    }
+      },
+    },
   };
 
   const use = [types.css, postcss];
@@ -56,8 +55,9 @@ module.exports = (config, type, modules) => {
     use.push(types[type]);
   }
 
-  return ExtractTextPlugin.extract({
-    fallback: 'style-loader',
-    use,
-  })
-}
+  if (config.env === 'production') {
+    return [MiniCssExtractPlugin.loader].concat(use);
+  }
+
+  return ['style-loader'].concat(use);
+};

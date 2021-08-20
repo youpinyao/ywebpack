@@ -5,5 +5,5 @@ module.exports = (config, include) => {
     loader: 'eslint-loader',
     exclude: include ? undefined : /(node_modules)/,
     include,
-  }
+  };
 };

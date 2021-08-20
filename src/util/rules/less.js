@@ -8,5 +8,5 @@ module.exports = (config, include, cssModules) => {
     exclude: include ? undefined : /(node_modules)/,
     include,
     use,
-  }
-}
+  };
+};

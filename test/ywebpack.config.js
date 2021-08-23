@@ -26,6 +26,7 @@ module.exports = {
   extraBabelPlugins: [],
   babelPresetsEnvConfig: {},
   swOptions: true,
+  babelEslintExclude: /(node_modules)/,
   webpackMerge: {
     // resolveLoader: {
     //   modules: ['node_modules', '../'],

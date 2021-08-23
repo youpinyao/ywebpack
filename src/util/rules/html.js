@@ -1,7 +1,7 @@
 module.exports = (config, include) => {
   return {
     test: /\.html$/,
-    exclude: include ? undefined : config.moduleExclude,
+    exclude: include ? undefined : '/(node_modules)/',
     include,
     use: [
       {

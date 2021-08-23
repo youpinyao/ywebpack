@@ -1,7 +1,7 @@
 module.exports = (config, include) => {
   return {
     test: /\.(jpg|jpeg|png|gif|woff|woff2|eot|ttf|svg|ico|mp3|mp4|pdf)$/,
-    exclude: include ? undefined : config.moduleExclude,
+    exclude: include ? undefined : '/(node_modules)/',
     include,
     use: [
       {

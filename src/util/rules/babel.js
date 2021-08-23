@@ -1,7 +1,7 @@
 module.exports = (config, include) => {
   const babelConfig = {
     test: /\.(ts|tsx|js|jsx)$/,
-    exclude: include ? undefined : config.moduleExclude,
+    exclude: include ? undefined : config.babelEslintExclude || '/(node_modules)/',
     include,
     use: [
       {

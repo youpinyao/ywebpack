@@ -25,3 +25,4 @@ console.log('jquery', $);
 console.log('moment', moment);
 console.log('tpl', tpl);
 console.log('user', user);
+

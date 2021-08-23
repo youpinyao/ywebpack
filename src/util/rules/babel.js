@@ -1,7 +1,9 @@
 module.exports = (config, include) => {
   const babelConfig = {
     test: /\.(ts|tsx|js|jsx)$/,
-    exclude: include ? undefined : config.babelEslintExclude || '/(node_modules)/',
+    exclude: include
+      ? undefined
+      : config.babelEslintExclude || '/(node_modules)/',
     include,
     use: [
       {
@@ -9,9 +11,14 @@ module.exports = (config, include) => {
         options: {
           cacheDirectory: true,
           presets: [
-            ['@babel/env', {
-              ...config.babelPresetsEnvConfig || {},
-            }], '@babel/react'],
+            [
+              '@babel/preset-env',
+              {
+                ...(config.babelPresetsEnvConfig || {}),
+              },
+            ],
+            '@babel/preset-react',
+          ],
           plugins: [
             '@babel/transform-runtime',
             'syntax-async-functions',
@@ -21,13 +28,17 @@ module.exports = (config, include) => {
 
             // Stage 0
             '@babel/plugin-proposal-function-bind',
+            '@babel/plugin-proposal-private-property-in-object',
 
             // Stage 1
             '@babel/plugin-proposal-export-default-from',
             '@babel/plugin-proposal-logical-assignment-operators',
-            ['@babel/plugin-proposal-optional-chaining', { loose: false }],
-            ['@babel/plugin-proposal-pipeline-operator', { proposal: 'minimal' }],
-            ['@babel/plugin-proposal-nullish-coalescing-operator', { loose: false }],
+            ['@babel/plugin-proposal-optional-chaining'],
+            [
+              '@babel/plugin-proposal-pipeline-operator',
+              { proposal: 'minimal' },
+            ],
+            ['@babel/plugin-proposal-nullish-coalescing-operator'],
             '@babel/plugin-proposal-do-expressions',
 
             // Stage 2
@@ -40,7 +51,7 @@ module.exports = (config, include) => {
             // Stage 3
             '@babel/plugin-syntax-dynamic-import',
             '@babel/plugin-syntax-import-meta',
-            ['@babel/plugin-proposal-class-properties', { loose: true }],
+            ['@babel/plugin-proposal-class-properties'],
             '@babel/plugin-proposal-json-strings',
           ],
         },
@@ -56,11 +67,13 @@ module.exports = (config, include) => {
 
   if (config.extraBabelPresets) {
     // eslint-disable-next-line
-    babelConfig.use[0].options.presets = babelConfig.use[0].options.presets.concat(config.extraBabelPresets);
+    babelConfig.use[0].options.presets =
+      babelConfig.use[0].options.presets.concat(config.extraBabelPresets);
   }
   if (config.extraBabelPlugins) {
     // eslint-disable-next-line
-    babelConfig.use[0].options.plugins = babelConfig.use[0].options.plugins.concat(config.extraBabelPlugins);
+    babelConfig.use[0].options.plugins =
+      babelConfig.use[0].options.plugins.concat(config.extraBabelPlugins);
   }
 
   return babelConfig;

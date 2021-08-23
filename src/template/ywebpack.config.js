@@ -27,6 +27,7 @@ module.exports = {
   babelPresetsEnvConfig: {},
   postcssPlugins: [],
   webpackMerge: {},
+  moduleExclude: /(node_modules)/,
   afterBuild() {
     console.log('afterBuild');
   },

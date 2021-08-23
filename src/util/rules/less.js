@@ -5,7 +5,7 @@ module.exports = (config, include, cssModules) => {
 
   return {
     test: /\.less$/,
-    exclude: include ? undefined : /(node_modules)/,
+    exclude: include ? undefined : config.moduleExclude,
     include,
     use,
   };

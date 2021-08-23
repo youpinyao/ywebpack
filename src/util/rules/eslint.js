@@ -3,7 +3,7 @@ module.exports = (config, include) => {
     test: /\.js?$/,
     enforce: 'pre',
     loader: 'eslint-loader',
-    exclude: include ? undefined : /(node_modules)/,
+    exclude: include ? undefined : config.moduleExclude,
     include,
   };
 };
